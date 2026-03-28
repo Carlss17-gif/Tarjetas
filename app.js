@@ -29,7 +29,6 @@ card.addEventListener("touchend", (e) => {
 // FORMATO
 const formatted = userId.match(/.{1,4}/g).join(" ");
 document.getElementById("cardNumber").innerText = formatted;
-document.getElementById("clienteId").innerText = "ID: " + userId;
 
 // SUPABASE
 async function obtenerPromo(id) {
