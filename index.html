@@ -1,86 +1,39 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Tarjeta Premium</title>
-
-<link rel="stylesheet" href="styles.css">
-<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-</head>
-
-<body data-card="black"> <!-- 🔥 puedes cambiar: black | gray | gold -->
-
-<div class="wallet">
-
-  <div class="card" id="card">
-
-    <div class="inner" id="inner">
-
-      <!-- FRENTE -->
-      <div class="face front">
-
-        <div class="stars"></div>
-
-        <div class="content">
-          <div class="top">
-            <img src="logo.png" class="logo">
-            <span class="emboss">PREMIUM</span>
-          </div>
-
-          <div class="number emboss" id="cardNumber"></div>
-
-          <div class="bottom">
-            <div>
-              <small>Cliente</small>
-              <div class="emboss" id="clienteId"></div>
-            </div>
-
-            <div>
-              <small>Nivel</small>
-              <div class="emboss">BLACK</div>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- ATRÁS -->
-      <div class="face back">
-
-        <div class="terminal"></div>
-
-        <div class="back-content">
-
-          <div class="qr-box">
-  <div class="qr-wrapper">
-    <canvas id="qr"></canvas>
-    <div class="qr-logo"></div>
-  </div>
-</div>
-
-          <div class="promo" id="promoText"></div>
-
-          <div class="footer-left">
-  <img src="logo.png" class="logo-small" onerror="this.style.display='none'">
-</div>
-
-            <p class="legal">
-              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE.
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
-
-</div>
-
-<script src="app.js"></script>
-
-</body>
+  <head> <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Tarjeta Premium</title> 
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  </head> 
+  <body data-card="black"> 
+    <div class="wallet"> 
+      <div class="card" id="card"> 
+        <div class="inner" id="inner"> 
+          <div class="face front"> 
+            <div class="stars"></div> 
+            <div class="content"> 
+              <div class="top"> 
+                <img src="logo.png" class="logo"> 
+                <span class="emboss">PREMIUM</span> 
+              </div> <div class="number emboss" id="cardNumber">
+                
+              </div> <div class="bottom"> 
+                <div>
+                  <small>Cliente</small> 
+                  <div class="emboss" id="clienteId"></div> </div> 
+                <div> <small>Nivel</small> 
+                  <div class="emboss">BLACK</div> </div> </div> </div> </div>
+          <!-- ATRÁS --> 
+          <div class="face back"> <div class="terminal"></div> 
+            <div class="back-content"> <div class="qr-box"> 
+              <canvas id="qr"></canvas> </div> 
+              <div class="promo" id="promoText"></div> 
+              <div class="footer"> 
+                <div class="footer-left">
+                  <img src="./logo.png" class="logo-small"> </div>
+                <p class="legal"> VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE. </p> </div> 
+            </div> </div> </div> </div> </div> 
+    <script src="app.js"></script> 
+  </body> 
 </html>
