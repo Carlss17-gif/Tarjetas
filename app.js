@@ -113,6 +113,10 @@ card.addEventListener("pointerup", () => {
 /* FORMATEO */
 const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
+/* FRONT */
+document.getElementById("cardNumber").innerText = formatted;
+document.getElementById("clienteId").innerText = userId;
+
 
 /* QR */
 function generarQR(id) {
@@ -129,5 +133,4 @@ function generarQR(id) {
     }
   );
 }
-
 window.addEventListener("load",()=>{generarQR(userId);});
