@@ -14,7 +14,7 @@ body {
   align-items: center;
 }
 
-/* TARJETA */
+/* CONTENEDOR PRINCIPAL */
 .card {
   width: 92vw;
   max-width: 750px;
@@ -23,15 +23,17 @@ body {
   touch-action: none;
 }
 
-/* FLIP */
+/* ELEMENTO QUE GIRA */
 .inner {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
+  will-change: transform;
   transition: transform 0.15s linear;
 }
 
+/* CARAS */
 .face {
   position: absolute;
   width: 100%;
@@ -41,13 +43,25 @@ body {
   overflow: hidden;
 }
 
-/* FRENTE */
+/* =========================
+   FRENTE
+========================= */
 .front {
   background: linear-gradient(145deg, #000, #1a1a1a);
   color: white;
 }
 
+.stars {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.12), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.08), transparent);
+}
+
 .content {
+  position: relative;
+  z-index: 2;
   height: 100%;
   padding: 22px;
   display: flex;
@@ -65,8 +79,16 @@ body {
   height: 40px;
 }
 
+.emboss {
+  text-shadow:
+    0 1px 1px rgba(0,0,0,0.9),
+    0 -1px 1px rgba(255,255,255,0.08),
+    0 2px 4px rgba(0,0,0,0.6);
+}
+
 .number {
   font-size: 22px;
+  letter-spacing: 2px;
 }
 
 .bottom {
@@ -75,19 +97,16 @@ body {
   font-size: 14px;
 }
 
-.emboss {
-  text-shadow: 0 1px 2px rgba(0,0,0,0.9);
-}
-
-/* BACK */
+/* =========================
+   BACK (DISEÑO PRO)
+========================= */
 .back {
   background: linear-gradient(145deg, #000, #1a1a1a);
   transform: rotateY(180deg);
   color: white;
-  position: relative;
 }
 
-/* BANDA SUPERIOR */
+/* banda superior */
 .back::before {
   content: "";
   position: absolute;
@@ -96,12 +115,13 @@ body {
   width: 100%;
   height: 55px;
   background: linear-gradient(90deg,#111,#333,#111);
+  z-index:1;
 }
 
-/* GRID SIMPLE Y ESTABLE */
+/* layout */
 .back-content {
   position: relative;
-  z-index: 2;
+  z-index:2;
   height: 100%;
   padding: 24px;
   box-sizing: border-box;
@@ -113,25 +133,28 @@ body {
   gap: 10px;
 }
 
-/* PROMO */
-.promo {
-  grid-column: 1 / 2;
-  grid-row: 1 / 2;
-
-  font-size: 14px;
-  opacity: 0.85;
+/* ID */
+.card-id {
+  font-size: 20px;
+  letter-spacing: 3px;
+  opacity: 0.9;
 }
 
-/* QR (NO FLOTA) */
+/* QR */
 .qr-box {
-  grid-column: 2 / 3;
-  grid-row: 1 / 2;
-
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
 
-  margin-top: 18px;
+  align-self:start;
+  margin-top: 10px;
+}
+
+/* contenedor QR */
+.qr-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
 }
 
 #qr {
@@ -139,55 +162,89 @@ body {
   height: 110px;
 }
 
-/* LOGO */
-.brand-back {
-  grid-column: 1 / 2;
-  grid-row: 2 / 3;
+
+/* promo */
+.promo {
+  grid-column: 1/2;
+  grid-row: 1/2;
+
+  align-self: start;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* footer */
+.footer {
+  grid-column: 1 / 3;
 
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
 }
 
-.brand-back img {
-  width: 70px;
-  object-fit: contain;
+.logo-small {
+  height: 26px;
 }
 
-/* VIGENCIA */
 .legal {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
-
   font-size: 9px;
-  opacity: 0.6;
-
-  display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  width: 65%;
   text-align: right;
+  opacity: 0.6;
+  color: white;
 }
 
-/* RESPONSIVE (CORREGIDO) */
+/* RESPONSIVE */
 @media (max-width: 600px) {
-
-  .back-content {
+  .back-content{
+    grid-template-colums:1fr 1fr;
+    grid-templade-rows: 1fr 1fr;
     gap: 8px;
   }
 
+  .qr-box {
+    width: 90px;
+    height: 90px;
+    align-self: start;
+  }
+  .promo{
+    font-size: 12px;
+  }
+  .brand-back img {
+    width: 60px;
+  }
+  .legal{
+    font-size: 8px;
+  }
   #qr {
     width: 90px;
     height: 90px;
   }
+}
 
-  .brand-back img {
-    width: 60px;
-  }
+.brand-back{
+  grid-column:1/2;
+  grid-row:2/3;
 
-  .promo {
-    font-size: 12px;
-  }
+  display:flex;
+  justify-content:flex-start;
+  align-items:flex-end;
+}
 
-  .legal {
-    font-size: 8px;
-  }
+.brand-back img{
+  width: 80px;
+}
+
+
+.footer-legal{
+  grid-column: 2/3;
+  grid-row:2/3;
+
+  font-size:10px;
+  opacity:0.6;
+  text-align:right;
+
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-end;
 }
