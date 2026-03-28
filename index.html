@@ -1,39 +1,62 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tarjeta</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarjeta Premium</title>
 
-  <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="styles.css">
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode/1.5.1/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 
 <body>
 
+<div class="close" onclick="window.history.back()">Cerrar</div>
+
 <div class="wallet">
   <div class="card" id="card">
 
-    <!-- FRONT -->
-    <div class="face front">
-      <img id="frontImg">
-      <div class="card-number" id="cardNumber"></div>
+    <!-- FRENTE -->
+    <div class="face front" id="cardFront">
+
+      <div class="texture"></div>
+
+      <div class="content">
+        <div class="top">
+          <img src="logo.png" class="logo">
+          <span>PREMIUM</span>
+        </div>
+
+        <div class="card-number" id="cardNumber"></div>
+
+        <div class="bottom">
+          <div>
+            <small>Cliente</small>
+            <div id="clienteId"></div>
+          </div>
+
+          <div class="right">
+            <small>Nivel</small>
+            <div>Black</div>
+          </div>
+        </div>
+      </div>
+
     </div>
 
-    <!-- BACK -->
+    <!-- ATRÁS -->
     <div class="face back">
-      <img id="backImg">
-
       <div class="qr-box">
         <canvas id="qr"></canvas>
       </div>
-
+      <p class="qr-text">Escanea tu promoción</p>
     </div>
 
   </div>
 </div>
 
 <script src="app.js"></script>
+
 </body>
 </html>
