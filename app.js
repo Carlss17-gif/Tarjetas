@@ -111,23 +111,14 @@ const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
-/* QR DINÁMICO */
 function generarQR(id) {
   const theme = document.body.getAttribute("data-card") || "black";
 
   let colors = { dark: "#000", light: "#fff" };
 
-  if (theme === "black") {
-    colors = { dark: "#bbbbbb", light: "#000000" };
-  }
-
-  if (theme === "gray") {
-    colors = { dark: "#000000", light: "#cccccc" };
-  }
-
-  if (theme === "gold") {
-    colors = { dark: "#000000", light: "#d4af37" };
-  }
+  if (theme === "black") colors = { dark: "#bbb", light: "#000" };
+  if (theme === "gray") colors = { dark: "#000", light: "#ccc" };
+  if (theme === "gold") colors = { dark: "#000", light: "#d4af37" };
 
   QRCode.toCanvas(
     document.getElementById("qr"),
@@ -138,6 +129,7 @@ function generarQR(id) {
       color: colors
     }
   );
+}
 }
 
 window.onload = () => generarQR(userId);
