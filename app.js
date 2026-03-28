@@ -1,17 +1,37 @@
 const inner = document.getElementById("inner");
 const card = document.getElementById("card");
 
-let rx = 0, ry = 0;
-let tx = 0, ty = 0;
-
-let active = false;
+/* =========================
+   ESTADO 3D
+========================= */
+let rx = 0, ry = 0;        // actual
+let tx = 0, ty = 0;        // target
 
 /* =========================
-   ANIMACIÓN SUAVE
+   INERCIA (VELOCIDAD)
+========================= */
+let vx = 0, vy = 0;
+
+let lastX = 0, lastY = 0;
+let dragging = false;
+
+/* =========================
+   ANIMACIÓN PRINCIPAL
 ========================= */
 function animate() {
-  rx += (tx - rx) * 0.12;
-  ry += (ty - ry) * 0.12;
+  // INERCIA → movimiento con "peso"
+  if (!dragging) {
+    tx *= 0.92;
+    ty *= 0.92;
+
+    // SNAP AL CENTRO (cuando casi se detiene)
+    if (Math.abs(tx) < 0.01) tx = 0;
+    if (Math.abs(ty) < 0.01) ty = 0;
+  }
+
+  // suavizado (spring)
+  rx += (tx - rx) * 0.10;
+  ry += (ty - ry) * 0.10;
 
   inner.style.transform = `
     rotateX(${ry}deg)
@@ -23,69 +43,58 @@ function animate() {
 animate();
 
 /* =========================
-   INPUT (MOUSE + TOUCH + PEN)
+   INPUT (TOUCH + MOUSE)
 ========================= */
-function updateFromPointer(e) {
+function setFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  // normalizamos dentro de la tarjeta (-0.5 a 0.5)
   const nx = (x / rect.width) - 0.5;
   const ny = (y / rect.height) - 0.5;
 
-  // 🔥 sensibilidad (subida para móvil)
-  const sens = 35;
+  const sens = 40;
 
   tx = nx * sens;
   ty = -ny * sens;
+
+  // velocidad para inercia
+  vx = x - lastX;
+  vy = y - lastY;
+
+  lastX = x;
+  lastY = y;
 }
 
+/* =========================
+   EVENTOS
+========================= */
 card.addEventListener("pointerdown", (e) => {
-  active = true;
+  dragging = true;
   card.setPointerCapture(e.pointerId);
+
+  const rect = card.getBoundingClientRect();
+  lastX = e.clientX - rect.left;
+  lastY = e.clientY - rect.top;
 });
 
 card.addEventListener("pointermove", (e) => {
-  if (!active) return;
-  updateFromPointer(e);
+  if (!dragging) return;
+  setFromPointer(e);
 });
 
 card.addEventListener("pointerup", () => {
-  active = false;
+  dragging = false;
+
+  // 🔥 INERCIA REAL (impulso al soltar)
+  tx += vx * 0.15;
+  ty -= vy * 0.15;
+
+  vx = 0;
+  vy = 0;
 });
 
 card.addEventListener("pointercancel", () => {
-  active = false;
+  dragging = false;
 });
-
-/* =========================
-   DATOS
-========================= */
-const params = new URLSearchParams(window.location.search);
-const userId = params.get("id") || "00000000";
-
-const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
-
-document.getElementById("cardNumber").innerText = formatted;
-document.getElementById("clienteId").innerText = userId;
-
-/* =========================
-   QR
-========================= */
-function generarQR(id) {
-  QRCode.toCanvas(
-    document.getElementById("qr"),
-    `https://consultapromo.vercel.app/?id=${id}`,
-    {
-      width: 100,
-      color: {
-        dark: "#888",
-        light: "#0a0a0a"
-      }
-    }
-  );
-}
-
-generarQR(userId);
