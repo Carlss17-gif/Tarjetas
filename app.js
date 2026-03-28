@@ -6,31 +6,22 @@ const userId = params.get("id") || "00000000";
 
 const inner = document.getElementById("inner");
 const card = document.getElementById("card");
+const front = document.querySelector(".front");
 
-/* =========================
-   FLIP STATE
-========================= */
 let flipped = false;
 
-/* =========================
-   ROTACIÓN (3D)
-========================= */
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
 
-/* =========================
-   INERCIA
-========================= */
 let dragging = false;
-let lastX = 0, lastY = 0;
 
-/* =========================
-   ANIMACIÓN
-========================= */
+let lightX = 50;
+let lightY = 50;
+
 function animate() {
   if (!dragging) {
-    tx *= 0.9;
-    ty *= 0.9;
+    tx *= 0.92;
+    ty *= 0.92;
 
     if (Math.abs(tx) < 0.01) tx = 0;
     if (Math.abs(ty) < 0.01) ty = 0;
@@ -48,10 +39,7 @@ function animate() {
 }
 animate();
 
-/* =========================
-   INPUT (DRAG)
-========================= */
-function setFromPointer(e) {
+function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
   const x = e.clientX - rect.left;
@@ -60,18 +48,25 @@ function setFromPointer(e) {
   const nx = (x / rect.width) - 0.5;
   const ny = (y / rect.height) - 0.5;
 
-  const sens = 40;
+  const sens = 42;
 
   tx = nx * sens;
   ty = -ny * sens;
 
-  lastX = x;
-  lastY = y;
+  lightX = (x / rect.width) * 100;
+  lightY = (y / rect.height) * 100;
+
+  front.style.background = `
+    radial-gradient(
+      circle at ${lightX}% ${lightY}%,
+      rgba(255,255,255,0.14),
+      rgba(0,0,0,0.85) 55%,
+      #000 100%
+    ),
+    linear-gradient(145deg, #0a0a0a, #1a1a1a)
+  `;
 }
 
-/* =========================
-   TAP vs DRAG DETECTOR
-========================= */
 let startX = 0, startY = 0;
 let moved = false;
 
@@ -84,9 +79,6 @@ card.addEventListener("pointerdown", (e) => {
   const rect = card.getBoundingClientRect();
   startX = e.clientX - rect.left;
   startY = e.clientY - rect.top;
-
-  lastX = startX;
-  lastY = startY;
 });
 
 card.addEventListener("pointermove", (e) => {
@@ -96,17 +88,19 @@ card.addEventListener("pointermove", (e) => {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  if (Math.abs(x - startX) > 5 || Math.abs(y - startY) > 5) {
+  if (Math.abs(x - startX) > 6 || Math.abs(y - startY) > 6) {
     moved = true;
   }
 
-  setFromPointer(e);
+  updateFromPointer(e);
 });
 
 card.addEventListener("pointerup", () => {
   dragging = false;
 
-  // 👉 SI NO SE MOVIÓ = TAP → FLIP
+  /* =========================
+     TAP = FLIP
+  ========================= */
   if (!moved) {
     flipped = !flipped;
   }
@@ -115,17 +109,11 @@ card.addEventListener("pointerup", () => {
   ty *= 0.3;
 });
 
-/* =========================
-   DATOS
-========================= */
 const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
-/* =========================
-   QR
-========================= */
 function generarQR(id) {
   QRCode.toCanvas(
     document.getElementById("qr"),
@@ -133,7 +121,7 @@ function generarQR(id) {
     {
       width: 100,
       color: {
-        dark: "#888",
+        dark: "#aaaaaa",
         light: "#0a0a0a"
       }
     }
