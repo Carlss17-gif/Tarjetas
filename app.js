@@ -117,9 +117,6 @@ const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
-/* BACK (NUEVO) */
-document.getElementById("cardBackId").innerText = formatted;
-
 /* QR */
 function generarQR(id) {
   QRCode.toCanvas(
@@ -136,4 +133,4 @@ function generarQR(id) {
   );
 }
 
-generarQR(userId);
+window.addEventListener("load",()=>{generarQR(userId);});
