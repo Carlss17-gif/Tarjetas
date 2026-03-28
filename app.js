@@ -124,5 +124,3 @@ card.addEventListener("click", () => {
   aplicarTema(tipo);
   generarQR(userId);
 })();
-
-})();
