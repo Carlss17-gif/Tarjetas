@@ -12,43 +12,43 @@
 <body>
 
 <div class="wallet">
+
   <div class="card" id="card">
 
-    <!-- FRENTE -->
     <div class="face front" id="cardFront">
 
       <div class="stars"></div>
-      <div class="texture"></div>
 
       <div class="content">
         <div class="top">
           <img src="logo.png" class="logo">
-          <span class="embossed">PREMIUM</span>
+          <span class="emboss">PREMIUM</span>
         </div>
 
-        <div class="card-number embossed" id="cardNumber"></div>
+        <div class="number emboss" id="cardNumber"></div>
 
         <div class="bottom">
           <div>
             <small>Cliente</small>
-            <div id="clienteId" class="embossed"></div>
+            <div class="emboss" id="clienteId"></div>
           </div>
 
           <div class="right">
             <small>Nivel</small>
-            <div class="embossed">BLACK</div>
+            <div class="emboss">BLACK</div>
           </div>
         </div>
       </div>
     </div>
-
-    <!-- ATRÁS -->
     <div class="face back">
 
-      <div class="swipe-line"></div>
+      <div class="terminal-line"></div>
 
       <div class="back-content">
-        <canvas id="qr"></canvas>
+
+        <div class="qr-wrapper">
+          <canvas id="qr"></canvas>
+        </div>
 
         <div class="promo" id="promoText"></div>
 
@@ -56,14 +56,15 @@
           <img src="logo.png" class="logo-small">
 
           <p class="legal">
-            VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VALIDO CON OTRAS PROMOCIONES U OFERTAS. VALIDO UNICAMENTE EN SUCURSAL PORFIRIO DÍAZ, OAXACA. NO TRANSFERIBLE. NO CANJEABLE POR EFECTIVO.
+            VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES U OFERTAS. VÁLIDO SOLO EN SUCURSAL PORFIRIO DÍAZ, OAXACA. NO TRANSFERIBLE. NO CANJEABLE POR EFECTIVO.
           </p>
         </div>
-      </div>
 
+      </div>
     </div>
 
   </div>
+
 </div>
 
 <script src="app.js"></script>
