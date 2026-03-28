@@ -15,54 +15,62 @@
 
   <div class="card" id="card">
 
-    <div class="face front" id="cardFront">
+    <div class="inner" id="inner">
 
-      <div class="stars"></div>
+      <!-- FRENTE -->
+      <div class="face front">
 
-      <div class="content">
-        <div class="top">
-          <img src="logo.png" class="logo">
-          <span class="emboss">PREMIUM</span>
-        </div>
+        <div class="stars"></div>
 
-        <div class="number emboss" id="cardNumber"></div>
-
-        <div class="bottom">
-          <div>
-            <small>Cliente</small>
-            <div class="emboss" id="clienteId"></div>
+        <div class="content">
+          <div class="top">
+            <img src="logo.png" class="logo">
+            <span class="emboss">PREMIUM</span>
           </div>
 
-          <div class="right">
-            <small>Nivel</small>
-            <div class="emboss">BLACK</div>
+          <div class="number emboss" id="cardNumber"></div>
+
+          <div class="bottom">
+            <div>
+              <small>Cliente</small>
+              <div class="emboss" id="clienteId"></div>
+            </div>
+
+            <div>
+              <small>Nivel</small>
+              <div class="emboss">BLACK</div>
+            </div>
           </div>
-        </div>
-      </div>
-    </div>
-    <div class="face back">
-
-      <div class="terminal-line"></div>
-
-      <div class="back-content">
-
-        <div class="qr-wrapper">
-          <canvas id="qr"></canvas>
-        </div>
-
-        <div class="promo" id="promoText"></div>
-
-        <div class="footer">
-          <img src="logo.png" class="logo-small">
-
-          <p class="legal">
-            VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES U OFERTAS. VÁLIDO SOLO EN SUCURSAL PORFIRIO DÍAZ, OAXACA. NO TRANSFERIBLE. NO CANJEABLE POR EFECTIVO.
-          </p>
         </div>
 
       </div>
-    </div>
 
+      <!-- ATRÁS -->
+      <div class="face back">
+
+        <div class="terminal"></div>
+
+        <div class="back-content">
+
+          <div class="qr-box">
+            <canvas id="qr"></canvas>
+          </div>
+
+          <div class="promo" id="promoText"></div>
+
+          <div class="footer">
+            <img src="logo.png" class="logo-small">
+
+            <p class="legal">
+              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
   </div>
 
 </div>
