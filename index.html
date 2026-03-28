@@ -6,20 +6,17 @@
 <title>Tarjeta Premium</title>
 
 <link rel="stylesheet" href="styles.css">
-
 <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
 </head>
 
 <body>
-
-<div class="close" onclick="window.history.back()">Cerrar</div>
 
 <div class="wallet">
   <div class="card" id="card">
 
     <!-- FRENTE -->
     <div class="face front" id="cardFront">
-
+      <div class="stars"></div>
       <div class="texture"></div>
 
       <div class="content">
@@ -28,35 +25,46 @@
           <span>PREMIUM</span>
         </div>
 
-        <div class="card-number" id="cardNumber"></div>
+        <div class="card-number embossed" id="cardNumber"></div>
 
         <div class="bottom">
           <div>
             <small>Cliente</small>
-            <div id="clienteId"></div>
+            <div id="clienteId" class="embossed"></div>
           </div>
 
           <div class="right">
             <small>Nivel</small>
-            <div>Black</div>
+            <div class="embossed">Black</div>
           </div>
         </div>
       </div>
-
     </div>
 
     <!-- ATRÁS -->
     <div class="face back">
-      <div class="qr-box">
+
+      <div class="swipe-line"></div>
+
+      <div class="back-content">
         <canvas id="qr"></canvas>
+
+        <div class="promo" id="promoText"></div>
+
+        <div class="footer">
+          <img src="logo.png" class="logo-small">
+
+          <p class="legal">
+            VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VALIDO CON OTRAS PROMOCIONES U OFERTAS. VALIDO UNICAMENTE EN LA SUCURSAL PORFIRIO DIAZ, OAXACA, NO TRANSFERIBLE. NO CANJEABLE POR EFECTIVO.
+          </p>
+        </div>
       </div>
-      <p class="qr-text">Escanea tu promoción</p>
+
     </div>
 
   </div>
 </div>
 
 <script src="app.js"></script>
-
 </body>
 </html>
