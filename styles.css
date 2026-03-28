@@ -142,17 +142,12 @@ body {
 
 /* QR */
 .qr-box {
-  grid-column: 2 / 3;
-  grid-row: 1 /2;
-
-  width: 120px;
-  height: 120px;
-
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
 
   align-self:start;
+  margin-top: 10px;
 }
 
 /* contenedor QR */
@@ -167,20 +162,6 @@ body {
   height: 110px;
 }
 
-/* logo dentro del QR */
-.qr-logo {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-
-  width: 30px;
-  height: 30px;
-
-  background: #000;
-  border-radius: 8px;
-  padding: 3px;
-}
 
 /* promo */
 .promo {
@@ -217,13 +198,14 @@ body {
 @media (max-width: 600px) {
   .back-content{
     grid-template-colums:1fr 1fr;
-    grid-templade-rows: auto auto auto ;
+    grid-templade-rows: 1fr 1fr;
     gap: 8px;
   }
 
   .qr-box {
     width: 90px;
     height: 90px;
+    align-self: start;
   }
   .promo{
     font-size: 12px;
@@ -253,9 +235,6 @@ body {
   width: 80px;
 }
 
-.back-content{
-  min-height:100%;
-}
 
 .footer-legal{
   grid-column: 2/3;
