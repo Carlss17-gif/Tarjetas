@@ -9,12 +9,9 @@ const card = document.getElementById("card");
 const front = document.querySelector(".front");
 
 let flipped = false;
-
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
-
 let dragging = false;
-
 let lightX = 50;
 let lightY = 50;
 
@@ -22,7 +19,6 @@ function animate() {
   if (!dragging) {
     tx *= 0.92;
     ty *= 0.92;
-
     if (Math.abs(tx) < 0.01) tx = 0;
     if (Math.abs(ty) < 0.01) ty = 0;
   }
@@ -37,11 +33,11 @@ function animate() {
 
   requestAnimationFrame(animate);
 }
+
 animate();
 
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
-
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
@@ -49,7 +45,6 @@ function updateFromPointer(e) {
   const ny = (y / rect.height) - 0.5;
 
   const sens = 42;
-
   tx = nx * sens;
   ty = -ny * sens;
 
@@ -111,14 +106,23 @@ const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
+/* QR DINÁMICO */
 function generarQR(id) {
   const theme = document.body.getAttribute("data-card") || "black";
 
   let colors = { dark: "#000", light: "#fff" };
 
-  if (theme === "black") colors = { dark: "#bbb", light: "#000" };
-  if (theme === "gray") colors = { dark: "#000", light: "#ccc" };
-  if (theme === "gold") colors = { dark: "#000", light: "#d4af37" };
+  if (theme === "black") {
+    colors = { dark: "#bbbbbb", light: "#000000" };
+  }
+
+  if (theme === "gray") {
+    colors = { dark: "#000000", light: "#cccccc" };
+  }
+
+  if (theme === "gold") {
+    colors = { dark: "#000000", light: "#d4af37" };
+  }
 
   QRCode.toCanvas(
     document.getElementById("qr"),
@@ -130,6 +134,3 @@ function generarQR(id) {
     }
   );
 }
-}
-
-window.onload = () => generarQR(userId);
