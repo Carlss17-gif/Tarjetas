@@ -98,7 +98,7 @@ body {
 }
 
 /* =========================
-   BACK (DISEÑO PRO)
+   BACK FIX COMPLETO
 ========================= */
 .back {
   background: linear-gradient(145deg, #000, #1a1a1a);
@@ -117,49 +117,53 @@ body {
   background: linear-gradient(90deg,#111,#333,#111);
 }
 
-/* layout */
+/* layout corregido */
 .back-content {
   position: relative;
   height: 100%;
-  padding: 20px;
+  padding: 18px;
 
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-template-rows: auto 1fr auto;
-
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* ID */
 .card-id {
-  font-size: 20px;
+  font-size: 18px;
   letter-spacing: 3px;
   opacity: 0.9;
 }
 
+/* CONTENIDO CENTRAL */
+.middle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 /* QR */
 .qr-box {
-  grid-column: 2 / 3;
-  grid-row: 1 / 3;
+  align-self: flex-end;
 
-  width: 120px;
-  height: 120px;
+  width: 110px;
+  height: 110px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* contenedor QR */
 .qr-wrapper {
   position: relative;
-  width: 110px;
-  height: 110px;
+  width: 100px;
+  height: 100px;
 }
 
 #qr {
-  width: 110px;
-  height: 110px;
+  width: 100px !important;
+  height: 100px !important;
+  display: block;
 }
 
 /* logo dentro del QR */
@@ -169,40 +173,51 @@ body {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  width: 30px;
-  height: 30px;
+  width: 28px;
+  height: 28px;
 
   background: #000;
-  border-radius: 8px;
-  padding: 3px;
+  border-radius: 6px;
+  padding: 2px;
 }
 
-/* promo */
+/* PROMO */
 .promo {
-  font-size: 15px;
-  line-height: 1.3;
+  font-size: 14px;
   opacity: 0.85;
+  margin-top: 10px;
 }
 
-/* footer */
+/* FOOTER */
 .footer {
-  grid-column: 1 / 3;
-
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  gap: 10px;
+}
+
+/* lado izquierdo */
+.footer-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .logo-small {
-  height: 26px;
+  height: 22px;
 }
 
+.brand-text {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+/* legal */
 .legal {
   font-size: 9px;
-  width: 65%;
+  width: 60%;
   text-align: right;
   opacity: 0.6;
-  color: white;
 }
 
 /* RESPONSIVE */
