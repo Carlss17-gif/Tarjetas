@@ -9,16 +9,21 @@ const card = document.getElementById("card");
 const front = document.querySelector(".front");
 
 let flipped = false;
+
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
+
 let dragging = false;
+
 let lightX = 50;
 let lightY = 50;
 
+/* ANIMACIÓN PRINCIPAL */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
     ty *= 0.92;
+
     if (Math.abs(tx) < 0.01) tx = 0;
     if (Math.abs(ty) < 0.01) ty = 0;
   }
@@ -33,11 +38,12 @@ function animate() {
 
   requestAnimationFrame(animate);
 }
-
 animate();
 
+/* EFECTO DE LUZ */
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
+
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
@@ -45,6 +51,7 @@ function updateFromPointer(e) {
   const ny = (y / rect.height) - 0.5;
 
   const sens = 42;
+
   tx = nx * sens;
   ty = -ny * sens;
 
@@ -62,6 +69,7 @@ function updateFromPointer(e) {
   `;
 }
 
+/* INTERACCIÓN */
 let startX = 0, startY = 0;
 let moved = false;
 
@@ -93,6 +101,7 @@ card.addEventListener("pointermove", (e) => {
 card.addEventListener("pointerup", () => {
   dragging = false;
 
+  /* TAP = FLIP */
   if (!moved) {
     flipped = !flipped;
   }
@@ -101,36 +110,30 @@ card.addEventListener("pointerup", () => {
   ty *= 0.3;
 });
 
+/* FORMATEO */
 const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
+/* FRONT */
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
-/* QR DINÁMICO */
+/* BACK (NUEVO) */
+document.getElementById("cardBackId").innerText = formatted;
+
+/* QR */
 function generarQR(id) {
-  const theme = document.body.getAttribute("data-card") || "black";
-
-  let colors = { dark: "#000", light: "#fff" };
-
-  if (theme === "black") {
-    colors = { dark: "#bbbbbb", light: "#000000" };
-  }
-
-  if (theme === "gray") {
-    colors = { dark: "#000000", light: "#cccccc" };
-  }
-
-  if (theme === "gold") {
-    colors = { dark: "#000000", light: "#d4af37" };
-  }
-
   QRCode.toCanvas(
     document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
       width: 100,
       margin: 1,
-      color: colors
+      color: {
+        dark: "#aaaaaa",
+        light: "#0a0a0a"
+      }
     }
   );
 }
+
+generarQR(userId);
