@@ -7,44 +7,58 @@ const userId = params.get("id");
 const card = document.getElementById("card");
 const front = document.getElementById("cardFront");
 
-let rx = 0, ry = 0;
-let tx = 0, ty = 0;
+let rotateX = 0;
+let rotateY = 0;
+
+let targetX = 0;
+let targetY = 0;
+
 let flipped = false;
 
 /* =========================
-   MOVIMIENTO FÍSICO SUAVE
+   CONTROL REAL CON DEDO
 ========================= */
+function setTarget(e) {
+  let x = e.touches ? e.touches[0].clientX : e.clientX;
+  let y = e.touches ? e.touches[0].clientY : e.clientY;
+
+  const centerX = window.innerWidth / 2;
+  const centerY = window.innerHeight / 2;
+
+  targetY = (x - centerX) / 18;
+  targetX = -(y - centerY) / 18;
+}
+
+/* movimiento continuo suave */
 function animate() {
-  rx += (tx - rx) * 0.08;
-  ry += (ty - ry) * 0.08;
+  rotateX += (targetX - rotateX) * 0.12;
+  rotateY += (targetY - rotateY) * 0.12;
 
   card.style.transform = `
-    rotateX(${ry}deg)
-    rotateY(${rx + (flipped ? 180 : 0)}deg)
+    perspective(1200px)
+    rotateX(${rotateX}deg)
+    rotateY(${rotateY + (flipped ? 180 : 0)}deg)
   `;
 
   requestAnimationFrame(animate);
 }
 animate();
 
-/* =========================
-   CONTROL TOUCH / MOUSE
-========================= */
-function move(e) {
-  let x = e.touches ? e.touches[0].clientX : e.clientX;
-  let y = e.touches ? e.touches[0].clientY : e.clientY;
+/* EVENTS */
+document.addEventListener("mousemove", setTarget);
+document.addEventListener("touchmove", setTarget, { passive: true });
 
-  tx = (x - window.innerWidth / 2) / 22;
-  ty = -(y - window.innerHeight / 2) / 22;
-}
-
-document.addEventListener("mousemove", move);
-document.addEventListener("touchmove", move);
-
-/* FLIP */
+/* FLIP REAL */
 card.addEventListener("click", () => {
   flipped = !flipped;
 });
+
+/* =========================
+   FORMATO
+========================= */
+const formatted = userId.match(/.{1,4}/g).join(" ");
+document.getElementById("cardNumber").innerText = formatted;
+document.getElementById("clienteId").innerText = "ID: " + userId;
 
 /* =========================
    SUPABASE
@@ -65,11 +79,10 @@ async function obtenerPromo(id) {
 }
 
 /* =========================
-   TEMA DINÁMICO
+   TEMA
 ========================= */
 function aplicarTema(texto) {
   const t = texto?.toLowerCase() || "";
-
   front.classList.remove("negro","dorado","gris");
 
   if (t.includes("dorado")) front.classList.add("dorado");
@@ -78,20 +91,20 @@ function aplicarTema(texto) {
 }
 
 /* =========================
-   QR DINÁMICO
+   QR PEQUEÑO Y LIMPIO
 ========================= */
 function generarQR(id, tipo) {
   const canvas = document.getElementById("qr");
 
   const color =
-    tipo === "dorado" ? "#1a1a1a" :
-    tipo === "gris" ? "#333" :
-    "#888";
+    tipo === "dorado" ? "#2a2a2a" :
+    tipo === "gris" ? "#444" :
+    "#777";
 
   QRCode.toCanvas(canvas,
     `https://consultapromo.vercel.app/?id=${id}`,
     {
-      width: 160,
+      width: 120,   // 👈 MÁS PEQUEÑO
       margin: 1,
       color: {
         dark: color,
@@ -117,4 +130,4 @@ function generarQR(id, tipo) {
 
   aplicarTema(promo.promocion);
   generarQR(userId, tipo);
-})();
+})();;
