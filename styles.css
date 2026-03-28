@@ -1,23 +1,10 @@
 body {
   margin: 0;
   background: black;
-  font-family: Arial;
   overflow: hidden;
+  font-family: Arial;
 }
 
-/* BOTÓN */
-.close {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  color: white;
-  background: rgba(255,255,255,0.1);
-  padding: 10px 15px;
-  border-radius: 10px;
-  z-index: 10;
-}
-
-/* CONTENEDOR */
 .wallet {
   width: 100vw;
   height: 100vh;
@@ -26,19 +13,13 @@ body {
   align-items: center;
 }
 
-/* TARJETA */
 .card {
   width: 92vw;
   max-width: 700px;
   aspect-ratio: 1.7;
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s ease;
-  border-radius: 20px;
-}
-
-.card.flip {
-  transform: rotateY(180deg);
+  transition: transform 0.6s;
 }
 
 /* CARAS */
@@ -47,115 +28,119 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  overflow: hidden;
   backface-visibility: hidden;
+  overflow: hidden;
 }
 
-/* TEXTURA BASE */
+/* FRENTE */
+.front {
+  background: linear-gradient(145deg, #000, #1a1a1a);
+  color: white;
+}
+
+/* ESTRELLAS */
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,0.1), transparent);
+}
+
+/* TEXTURA */
 .texture {
   position: absolute;
   inset: 0;
-  mix-blend-mode: overlay;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
+}
+
+/* RELIEVE */
+.embossed {
+  text-shadow:
+    0 1px 0 #000,
+    0 2px 2px rgba(0,0,0,0.5),
+    0 -1px 1px rgba(255,255,255,0.1);
 }
 
 /* CONTENIDO */
 .content {
   position: relative;
   z-index: 2;
+  padding: 20px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 20px;
 }
 
 .top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .logo {
   height: 40px;
 }
 
+.logo-small {
+  height: 25px;
+}
+
 .card-number {
-  font-size: clamp(18px, 4vw, 26px);
+  font-size: 24px;
   letter-spacing: 6px;
-  font-family: monospace;
-}
-
-.bottom {
-  display: flex;
-  justify-content: space-between;
-}
-
-.right {
-  text-align: right;
 }
 
 /* ATRÁS */
 .back {
   background: linear-gradient(145deg, #111, #000);
   transform: rotateY(180deg);
+  color: white;
+}
+
+.back-content {
+  padding: 20px;
+  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.qr-box {
-  width: 40%;
-  aspect-ratio: 1;
-  background: white;
+/* QR */
+#qr {
+  width: 150px;
+}
+
+/* PROMO */
+.promo {
+  text-align: center;
+  font-size: 16px;
   padding: 10px;
-  border-radius: 12px;
 }
 
-.qr-text {
-  color: white;
-  font-size: 14px;
-  margin-top: 10px;
+/* SWIPE LINE */
+.swipe-line {
+  position: absolute;
+  top: 15%;
+  left: 5%;
+  width: 90%;
+  height: 6px;
+  background: linear-gradient(90deg, #444, #aaa, #444);
+  border-radius: 10px;
 }
 
-/* ========================= */
-/* TEMAS */
-/* ========================= */
-
-/* NEGRO */
-.front.negro {
-  background: linear-gradient(145deg, #000000, #1a1a1a, #0a0a0a);
-  color: white;
+/* FOOTER */
+.footer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
-.front.negro .texture {
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255,255,255,0.12), transparent 40%),
-    linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
-}
-
-/* DORADO */
-.front.dorada {
-  background:
-    linear-gradient(145deg, #5c3d00, #d4af37, #fff2a8, #d4af37, #5c3d00);
-  color: #1a1a1a;
-}
-
-.front.dorada .texture {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.5), transparent 40%),
-    linear-gradient(120deg, transparent, rgba(255,255,255,0.4), transparent);
-}
-
-/* GRIS */
-.front.gris {
-  background:
-    linear-gradient(145deg, #2a2a2a, #cfcfcf, #f5f5f5, #cfcfcf, #2a2a2a);
-  color: #111;
-}
-
-.front.gris .texture {
-  background:
-    radial-gradient(circle at 30% 30%, rgba(255,255,255,0.6), transparent 40%),
-    linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
+.legal {
+  font-size: 9px;
+  width: 70%;
+  text-align: right;
 }
