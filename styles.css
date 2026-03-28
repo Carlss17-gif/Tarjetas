@@ -151,6 +151,8 @@ body {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+
+  align-self:start;
 }
 
 /* contenedor QR */
@@ -213,15 +215,25 @@ body {
 
 /* RESPONSIVE */
 @media (max-width: 600px) {
-  .number {
-    font-size: 18px;
+  .back-content{
+    grid-template-colums:1fr 1fr;
+    grid-templade-rows: auto auto auto ;
+    gap: 8px;
   }
 
   .qr-box {
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
   }
-
+  .promo{
+    font-size: 12px;
+  }
+  .brand-back img {
+    width: 60px;
+  }
+  .legal{
+    font-size: 8px;
+  }
   #qr {
     width: 90px;
     height: 90px;
@@ -238,7 +250,11 @@ body {
 }
 
 .brand-back img{
-  width:80 px;
+  width: 80px;
+}
+
+.back-content{
+  min-height:100%;
 }
 
 .footer-legal{
