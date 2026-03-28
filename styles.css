@@ -13,28 +13,13 @@ body {
   justify-content: center;
   align-items: center;
 }
-.card {
-  touch-action: none;
-  transform: translateZ(0);
-}
 
-.inner {
-  transform-style: preserve-3d;
-  will-change: transform;
-}
-
-.front {
-  transition: background 0.08s linear;
-}
 /* CONTENEDOR PRINCIPAL */
 .card {
   width: 92vw;
   max-width: 750px;
   aspect-ratio: 1.7;
-
   perspective: 1200px;
-
-  /* IMPORTANTE PARA MÓVIL */
   touch-action: none;
 }
 
@@ -43,12 +28,8 @@ body {
   width: 100%;
   height: 100%;
   position: relative;
-
   transform-style: preserve-3d;
-
   will-change: transform;
-
-  /* suavidad del flip */
   transition: transform 0.15s linear;
 }
 
@@ -58,9 +39,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 22px;
-
   backface-visibility: hidden;
-
   overflow: hidden;
 }
 
@@ -72,7 +51,6 @@ body {
   color: white;
 }
 
-/* ESTRELLAS / TEXTURA */
 .stars {
   position: absolute;
   inset: 0;
@@ -81,20 +59,16 @@ body {
     radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.08), transparent);
 }
 
-/* CONTENIDO */
 .content {
   position: relative;
   z-index: 2;
-
   height: 100%;
   padding: 22px;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* PARTE SUPERIOR */
 .top {
   display: flex;
   justify-content: space-between;
@@ -105,7 +79,6 @@ body {
   height: 40px;
 }
 
-/* TEXTO PREMIUM */
 .emboss {
   text-shadow:
     0 1px 1px rgba(0,0,0,0.9),
@@ -113,13 +86,11 @@ body {
     0 2px 4px rgba(0,0,0,0.6);
 }
 
-/* NÚMERO */
 .number {
   font-size: 22px;
   letter-spacing: 2px;
 }
 
-/* PARTE INFERIOR */
 .bottom {
   display: flex;
   justify-content: space-between;
@@ -127,90 +98,114 @@ body {
 }
 
 /* =========================
-   BACK
+   BACK (DISEÑO PRO)
 ========================= */
 .back {
-  background: #0a0a0a;
-
+  background: linear-gradient(145deg, #000, #1a1a1a);
   transform: rotateY(180deg);
+  color: white;
 }
 
-/* LÍNEA TIPO TERMINAL */
-.terminal {
+/* banda superior */
+.back::before {
+  content: "";
   position: absolute;
-  top: 18%;
-  left: 5%;
-
-  width: 90%;
-  height: 8px;
-
-  background: linear-gradient(90deg,#444,#aaa,#444);
-
-  border-radius: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55px;
+  background: linear-gradient(90deg,#111,#333,#111);
 }
 
-/* CONTENIDO BACK */
+/* layout */
 .back-content {
+  position: relative;
   height: 100%;
+  padding: 20px;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-template-rows: auto 1fr auto;
 
-  padding: 18px;
+  gap: 12px;
+}
+
+/* ID */
+.card-id {
+  font-size: 20px;
+  letter-spacing: 3px;
+  opacity: 0.9;
 }
 
 /* QR */
 .qr-box {
-  width: 110px;
-  height: 110px;
+  grid-column: 2 / 3;
+  grid-row: 1 / 3;
 
-  background: #111;
-  border-radius: 10px;
+  width: 120px;
+  height: 120px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
+/* contenedor QR */
+.qr-wrapper {
+  position: relative;
+  width: 110px;
+  height: 110px;
+}
+
 #qr {
-  width: 100px;
-  height: 100px;
+  width: 110px;
+  height: 110px;
 }
 
-/* PROMO */
+/* logo dentro del QR */
+.qr-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 30px;
+  height: 30px;
+
+  background: #000;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+/* promo */
 .promo {
-  color: white;
-  font-size: 14px;
-  opacity: 0.8;
-  text-align: center;
+  font-size: 15px;
+  line-height: 1.3;
+  opacity: 0.85;
 }
 
-/* FOOTER */
+/* footer */
 .footer {
+  grid-column: 1 / 3;
+
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .logo-small {
-  height: 22px;
+  height: 26px;
 }
 
-/* LEGAL */
 .legal {
-  font-size: clamp(7px, 1.6vw, 10px);
-  width: 80%;
-  text-align: center;
+  font-size: 9px;
+  width: 65%;
+  text-align: right;
   opacity: 0.6;
   color: white;
 }
 
-/* =========================
-   RESPONSIVE AJUSTES
-========================= */
+/* RESPONSIVE */
 @media (max-width: 600px) {
   .number {
     font-size: 18px;
