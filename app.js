@@ -1,23 +1,17 @@
-const SUPABASE_URL = "https://aonrjcohmvxaleziockz.supabase.co";
-const SUPABASE_KEY = "sb_publishable_gNWkwWCmotp1zRvXZtY6lg_XW3NzPVx";
-
-const params = new URLSearchParams(window.location.search);
-const userId = params.get("id");
-
 const inner = document.getElementById("inner");
+const card = document.getElementById("card");
 
-let rx = 0;
-let ry = 0;
+let rx = 0, ry = 0;
+let tx = 0, ty = 0;
 
-let tx = 0;
-let ty = 0;
+let active = false;
 
 /* =========================
-   MOVIMIENTO REAL 3D
+   ANIMACIÓN SUAVE
 ========================= */
 function animate() {
-  rx += (tx - rx) * 0.08;
-  ry += (ty - ry) * 0.08;
+  rx += (tx - rx) * 0.12;
+  ry += (ty - ry) * 0.12;
 
   inner.style.transform = `
     rotateX(${ry}deg)
@@ -28,25 +22,52 @@ function animate() {
 }
 animate();
 
-/* TOUCH + MOUSE */
-function move(e) {
-  let x = e.touches ? e.touches[0].clientX : e.clientX;
-  let y = e.touches ? e.touches[0].clientY : e.clientY;
+/* =========================
+   INPUT (MOUSE + TOUCH + PEN)
+========================= */
+function updateFromPointer(e) {
+  const rect = card.getBoundingClientRect();
 
-  const cx = window.innerWidth / 2;
-  const cy = window.innerHeight / 2;
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  tx = (x - cx) / 20;
-  ty = -(y - cy) / 20;
+  // normalizamos dentro de la tarjeta (-0.5 a 0.5)
+  const nx = (x / rect.width) - 0.5;
+  const ny = (y / rect.height) - 0.5;
+
+  // 🔥 sensibilidad (subida para móvil)
+  const sens = 35;
+
+  tx = nx * sens;
+  ty = -ny * sens;
 }
 
-document.addEventListener("mousemove", move);
-document.addEventListener("touchmove", move, { passive: true });
+card.addEventListener("pointerdown", (e) => {
+  active = true;
+  card.setPointerCapture(e.pointerId);
+});
+
+card.addEventListener("pointermove", (e) => {
+  if (!active) return;
+  updateFromPointer(e);
+});
+
+card.addEventListener("pointerup", () => {
+  active = false;
+});
+
+card.addEventListener("pointercancel", () => {
+  active = false;
+});
 
 /* =========================
    DATOS
 ========================= */
-const formatted = userId.match(/.{1,4}/g).join(" ");
+const params = new URLSearchParams(window.location.search);
+const userId = params.get("id") || "00000000";
+
+const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
+
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
@@ -54,7 +75,8 @@ document.getElementById("clienteId").innerText = userId;
    QR
 ========================= */
 function generarQR(id) {
-  QRCode.toCanvas(document.getElementById("qr"),
+  QRCode.toCanvas(
+    document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
       width: 100,
