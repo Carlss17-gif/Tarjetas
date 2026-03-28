@@ -12,6 +12,9 @@ body {
   justify-content: center;
   align-items: center;
 }
+.card {
+  touch-action: none;
+}
 
 /* CONTENEDOR */
 .card {
