@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: black;
+  background: #000;
   overflow: hidden;
   font-family: Arial;
 }
@@ -13,13 +13,15 @@ body {
   align-items: center;
 }
 
+/* TARJETA */
 .card {
   width: 92vw;
-  max-width: 700px;
+  max-width: 750px;
   aspect-ratio: 1.7;
+
   position: relative;
   transform-style: preserve-3d;
-  transition: transform 0.6s;
+  will-change: transform;
 }
 
 /* CARAS */
@@ -27,48 +29,41 @@ body {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 20px;
+  border-radius: 22px;
   backface-visibility: hidden;
   overflow: hidden;
 }
 
 /* FRENTE */
 .front {
-  background: linear-gradient(145deg, #000, #1a1a1a);
   color: white;
 }
 
-/* ESTRELLAS */
+/* ESTRELLAS PREMIUM */
 .stars {
   position: absolute;
   inset: 0;
   background-image:
-    radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.15), transparent),
-    radial-gradient(1.5px 1.5px at 40% 80%, rgba(255,255,255,0.1), transparent);
+    radial-gradient(1px 1px at 10% 20%, rgba(255,255,255,0.15), transparent),
+    radial-gradient(1px 1px at 40% 70%, rgba(255,255,255,0.1), transparent),
+    radial-gradient(1px 1px at 80% 30%, rgba(255,255,255,0.08), transparent);
+  opacity: 0.6;
 }
 
 /* TEXTURA */
 .texture {
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.1), transparent);
-}
-
-/* RELIEVE */
-.embossed {
-  text-shadow:
-    0 1px 0 #000,
-    0 2px 2px rgba(0,0,0,0.5),
-    0 -1px 1px rgba(255,255,255,0.1);
+  mix-blend-mode: overlay;
+  background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
 }
 
 /* CONTENIDO */
 .content {
   position: relative;
   z-index: 2;
-  padding: 20px;
   height: 100%;
+  padding: 22px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -77,58 +72,78 @@ body {
 .top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
-  height: 40px;
+  height: 42px;
 }
 
 .logo-small {
-  height: 25px;
+  height: 24px;
 }
 
+/* TARJETA NUMERO */
 .card-number {
   font-size: 24px;
   letter-spacing: 6px;
+  font-family: monospace;
+}
+
+/* BOTTOM */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* RELIEVE */
+.embossed {
+  text-shadow:
+    0 1px 1px rgba(0,0,0,0.9),
+    0 -1px 1px rgba(255,255,255,0.08),
+    0 3px 6px rgba(0,0,0,0.6);
 }
 
 /* ATRÁS */
 .back {
-  background: linear-gradient(145deg, #111, #000);
+  background: #0a0a0a;
   transform: rotateY(180deg);
   color: white;
 }
 
 .back-content {
-  padding: 20px;
   height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  padding: 18px;
 }
 
 /* QR */
 #qr {
-  width: 150px;
+  width: 160px;
+  height: 160px;
+  border-radius: 12px;
 }
 
 /* PROMO */
 .promo {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   padding: 10px;
+  opacity: 0.9;
 }
 
-/* SWIPE LINE */
+/* LINEA SWIPE */
 .swipe-line {
   position: absolute;
-  top: 15%;
+  top: 18%;
   left: 5%;
   width: 90%;
-  height: 6px;
-  background: linear-gradient(90deg, #444, #aaa, #444);
+  height: 5px;
   border-radius: 10px;
+  background: linear-gradient(90deg,#444,#aaa,#444);
 }
 
 /* FOOTER */
@@ -143,4 +158,26 @@ body {
   font-size: 9px;
   width: 70%;
   text-align: right;
+  opacity: 0.7;
+}
+
+/* =========================
+   TEMAS
+========================= */
+
+/* NEGRO */
+.negro {
+  background: linear-gradient(145deg, #000, #1a1a1a);
+}
+
+/* DORADO */
+.dorado {
+  background: linear-gradient(145deg, #5c3d00, #d4af37, #fff1a8);
+  color: #1a1a1a;
+}
+
+/* GRIS */
+.gris {
+  background: linear-gradient(145deg, #2a2a2a, #d0d0d0, #f5f5f5);
+  color: #111;
 }
