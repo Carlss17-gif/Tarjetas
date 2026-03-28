@@ -18,6 +18,7 @@ let dragging = false;
 let lightX = 50;
 let lightY = 50;
 
+/* ANIMACIÓN PRINCIPAL */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
@@ -39,6 +40,7 @@ function animate() {
 }
 animate();
 
+/* EFECTO DE LUZ */
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
@@ -67,6 +69,7 @@ function updateFromPointer(e) {
   `;
 }
 
+/* INTERACCIÓN */
 let startX = 0, startY = 0;
 let moved = false;
 
@@ -98,9 +101,7 @@ card.addEventListener("pointermove", (e) => {
 card.addEventListener("pointerup", () => {
   dragging = false;
 
-  /* =========================
-     TAP = FLIP
-  ========================= */
+  /* TAP = FLIP */
   if (!moved) {
     flipped = !flipped;
   }
@@ -109,17 +110,24 @@ card.addEventListener("pointerup", () => {
   ty *= 0.3;
 });
 
+/* FORMATEO */
 const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
+/* FRONT */
 document.getElementById("cardNumber").innerText = formatted;
 document.getElementById("clienteId").innerText = userId;
 
+/* BACK (NUEVO) */
+document.getElementById("cardBackId").innerText = formatted;
+
+/* QR */
 function generarQR(id) {
   QRCode.toCanvas(
     document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
       width: 100,
+      margin: 1,
       color: {
         dark: "#aaaaaa",
         light: "#0a0a0a"
