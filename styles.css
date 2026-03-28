@@ -2,9 +2,10 @@ body {
   margin: 0;
   background: #000;
   overflow: hidden;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
 
+/* CENTRADO */
 .wallet {
   width: 100vw;
   height: 100vh;
@@ -12,50 +13,54 @@ body {
   justify-content: center;
   align-items: center;
 }
-.card {
-  touch-action: none;
-}
 
-/* CONTENEDOR */
+/* CONTENEDOR PRINCIPAL */
 .card {
   width: 92vw;
   max-width: 750px;
   aspect-ratio: 1.7;
+
   perspective: 1200px;
+
+  /* IMPORTANTE PARA MÓVIL */
+  touch-action: none;
 }
 
-/* ESTE ES EL QUE GIRA */
+/* ELEMENTO QUE GIRA */
 .inner {
   width: 100%;
   height: 100%;
   position: relative;
+
   transform-style: preserve-3d;
+
   will-change: transform;
+
+  /* suavidad del flip */
+  transition: transform 0.15s linear;
 }
 
-/* CARAS REALES SEPARADAS */
+/* CARAS */
 .face {
   position: absolute;
   width: 100%;
   height: 100%;
   border-radius: 22px;
+
   backface-visibility: hidden;
+
   overflow: hidden;
 }
 
-/* FRENTE */
+/* =========================
+   FRENTE
+========================= */
 .front {
   background: linear-gradient(145deg, #000, #1a1a1a);
   color: white;
 }
 
-/* ATRÁS (REALMENTE DETRÁS) */
-.back {
-  background: #0a0a0a;
-  transform: rotateY(180deg);
-}
-
-/* ESTRELLAS */
+/* ESTRELLAS / TEXTURA */
 .stars {
   position: absolute;
   inset: 0;
@@ -68,27 +73,27 @@ body {
 .content {
   position: relative;
   z-index: 2;
+
   height: 100%;
   padding: 22px;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
+/* PARTE SUPERIOR */
 .top {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .logo {
   height: 40px;
 }
 
-.logo-small {
-  height: 22px;
-}
-
-/* RELIEVE */
+/* TEXTO PREMIUM */
 .emboss {
   text-shadow:
     0 1px 1px rgba(0,0,0,0.9),
@@ -96,22 +101,62 @@ body {
     0 2px 4px rgba(0,0,0,0.6);
 }
 
-/* ATRÁS */
+/* NÚMERO */
+.number {
+  font-size: 22px;
+  letter-spacing: 2px;
+}
+
+/* PARTE INFERIOR */
+.bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+/* =========================
+   BACK
+========================= */
+.back {
+  background: #0a0a0a;
+
+  transform: rotateY(180deg);
+}
+
+/* LÍNEA TIPO TERMINAL */
+.terminal {
+  position: absolute;
+  top: 18%;
+  left: 5%;
+
+  width: 90%;
+  height: 8px;
+
+  background: linear-gradient(90deg,#444,#aaa,#444);
+
+  border-radius: 20px;
+}
+
+/* CONTENIDO BACK */
 .back-content {
   height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+
   padding: 18px;
 }
 
-/* QR PEQUEÑO */
+/* QR */
 .qr-box {
   width: 110px;
   height: 110px;
+
   background: #111;
   border-radius: 10px;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -122,21 +167,50 @@ body {
   height: 100px;
 }
 
-/* TERMINAL LINE */
-.terminal {
-  position: absolute;
-  top: 18%;
-  left: 5%;
-  width: 90%;
-  height: 8px;
-  background: linear-gradient(90deg,#444,#aaa,#444);
-  border-radius: 20px;
+/* PROMO */
+.promo {
+  color: white;
+  font-size: 14px;
+  opacity: 0.8;
+  text-align: center;
 }
 
-/* LEGAL RESPONSIVE */
+/* FOOTER */
+.footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-small {
+  height: 22px;
+}
+
+/* LEGAL */
 .legal {
   font-size: clamp(7px, 1.6vw, 10px);
-  width: 70%;
-  text-align: right;
-  opacity: 0.7;
+  width: 80%;
+  text-align: center;
+  opacity: 0.6;
+  color: white;
+}
+
+/* =========================
+   RESPONSIVE AJUSTES
+========================= */
+@media (max-width: 600px) {
+  .number {
+    font-size: 18px;
+  }
+
+  .qr-box {
+    width: 100px;
+    height: 100px;
+  }
+
+  #qr {
+    width: 90px;
+    height: 90px;
+  }
 }
