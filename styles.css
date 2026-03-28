@@ -13,20 +13,24 @@ body {
   align-items: center;
 }
 
-/* TARJETA */
+/* CONTENEDOR */
 .card {
   width: 92vw;
   max-width: 750px;
   aspect-ratio: 1.7;
+  perspective: 1200px;
+}
 
+/* ESTE ES EL QUE GIRA */
+.inner {
+  width: 100%;
+  height: 100%;
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
-
-  border-radius: 22px;
 }
 
-/* CARAS */
+/* CARAS REALES SEPARADAS */
 .face {
   position: absolute;
   width: 100%;
@@ -42,15 +46,19 @@ body {
   color: white;
 }
 
+/* ATRÁS (REALMENTE DETRÁS) */
+.back {
+  background: #0a0a0a;
+  transform: rotateY(180deg);
+}
+
 /* ESTRELLAS */
 .stars {
   position: absolute;
   inset: 0;
   background:
     radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.12), transparent),
-    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.08), transparent),
-    radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,0.10), transparent);
-  opacity: 0.6;
+    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.08), transparent);
 }
 
 /* CONTENIDO */
@@ -67,7 +75,6 @@ body {
 .top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .logo {
@@ -76,18 +83,6 @@ body {
 
 .logo-small {
   height: 22px;
-}
-
-/* TEXTO */
-.number {
-  font-size: 24px;
-  letter-spacing: 6px;
-  font-family: monospace;
-}
-
-.bottom {
-  display: flex;
-  justify-content: space-between;
 }
 
 /* RELIEVE */
@@ -99,26 +94,7 @@ body {
 }
 
 /* ATRÁS */
-.back {
-  background: #0a0a0a;
-}
-
-/* LINEA TERMINAL (MÁS GRANDE) */
-.terminal-line {
-  position: absolute;
-  top: 18%;
-  left: 5%;
-  width: 90%;
-  height: 10px;
-  border-radius: 20px;
-  background: linear-gradient(90deg,#444,#aaa,#444);
-  opacity: 0.9;
-}
-
-/* BACK CONTENT */
 .back-content {
-  position: relative;
-  z-index: 2;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -127,15 +103,15 @@ body {
   padding: 18px;
 }
 
-/* QR MÁS PEQUEÑO */
-.qr-wrapper {
+/* QR PEQUEÑO */
+.qr-box {
   width: 110px;
   height: 110px;
   background: #111;
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
 }
 
 #qr {
@@ -143,22 +119,18 @@ body {
   height: 100px;
 }
 
-/* PROMO */
-.promo {
-  font-size: 14px;
-  text-align: center;
-  padding: 8px;
-  opacity: 0.9;
+/* TERMINAL LINE */
+.terminal {
+  position: absolute;
+  top: 18%;
+  left: 5%;
+  width: 90%;
+  height: 8px;
+  background: linear-gradient(90deg,#444,#aaa,#444);
+  border-radius: 20px;
 }
 
-/* FOOTER */
-.footer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
+/* LEGAL RESPONSIVE */
 .legal {
   font-size: clamp(7px, 1.6vw, 10px);
   width: 70%;
