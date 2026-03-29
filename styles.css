@@ -5,6 +5,12 @@ body {
   font-family: Arial, sans-serif;
 }
 
+/* VARIABLES TEMA */
+:root {
+  --card-bg-1: #0a0a0a;
+  --card-bg-2: #1a1a1a;
+}
+
 /* CENTRADO */
 .wallet {
   width: 100vw;
@@ -14,7 +20,7 @@ body {
   align-items: center;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* CARD */
 .card {
   width: 92vw;
   max-width: 750px;
@@ -23,7 +29,7 @@ body {
   touch-action: none;
 }
 
-/* ELEMENTO QUE GIRA */
+/* INNER */
 .inner {
   width: 100%;
   height: 100%;
@@ -33,7 +39,7 @@ body {
   transition: transform 0.15s linear;
 }
 
-/* CARAS */
+/* FACES */
 .face {
   position: absolute;
   width: 100%;
@@ -43,22 +49,91 @@ body {
   overflow: hidden;
 }
 
-/* =========================
-   FRENTE (INTACTO)
-========================= */
+/* FRONT */
 .front {
-  background: linear-gradient(145deg, #000, #1a1a1a);
+  background: linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2));
   color: white;
 }
 
-.stars {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.12), transparent),
-    radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,0.08), transparent);
+/* BACK */
+.back {
+  background: linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2));
+  transform: rotateY(180deg);
+  color: white;
 }
 
+.back::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55px;
+  background: linear-gradient(90deg,#111,#333,#111);
+  z-index:1;
+}
+
+/* BACK CONTENT */
+.back-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 18px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* PROMO */
+.promo {
+  font-size: 12px;
+  opacity: 0.85;
+  max-width: 60%;
+}
+
+/* QR */
+.qr-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-wrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 14px;
+  width: 110px;
+  height: 110px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 10px;
+}
+
+.logo-small {
+  height: 24px;
+}
+
+.legal {
+  font-size: 8px;
+  opacity: 0.6;
+  text-align: right;
+  width: 65%;
+}
+
+/* FRONT (tu diseño intacto) */
 .content {
   position: relative;
   z-index: 2;
@@ -91,92 +166,8 @@ body {
   letter-spacing: 2px;
 }
 
-/* =========================
-   BACK (CORREGIDO)
-========================= */
-.back {
-  background: linear-gradient(145deg, #000, #1a1a1a);
-  transform: rotateY(180deg);
-  color: white;
-}
-
-.back::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55px;
-  background: linear-gradient(90deg,#111,#333,#111);
-  z-index:1;
-}
-
-/* BACK LAYOUT FIX */
-.back-content {
-  position: relative;
-  z-index: 2;
-  height: 100%;
-  padding: 18px;
-  box-sizing: border-box;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* PROMO */
-.promo {
-  font-size: 12px;
-  opacity: 0.85;
-  max-width: 60%;
-}
-
-/* QR */
-.qr-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.qr-wrapper {
-  background: white;
-  padding: 10px;
-  border-radius: 14px;
-
-  width: 110px;
-  height: 110px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* FOOTER + LINEA GRIS */
-.footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-
-  border-top: 1px solid rgba(255,255,255,0.15);
-  padding-top: 10px;
-}
-
-.logo-small {
-  height: 24px;
-}
-
-.legal {
-  font-size: 8px;
-  opacity: 0.6;
-  text-align: right;
-  width: 65%;
-}
-
-/* =========================
-   MOBILE (CLAVE)
-========================= */
+/* MOBILE */
 @media (max-width: 600px) {
-
   .card {
     width: 95vw;
     aspect-ratio: 1.6;
@@ -184,11 +175,6 @@ body {
 
   .back-content {
     padding: 14px;
-  }
-
-  .promo {
-    font-size: 11px;
-    max-width: 65%;
   }
 
   .qr-wrapper {
@@ -202,11 +188,15 @@ body {
     height: 84px;
   }
 
-  .logo-small {
-    height: 20px;
+  .promo {
+    font-size: 11px;
   }
 
   .legal {
     font-size: 7px;
+  }
+
+  .logo-small {
+    height: 20px;
   }
 }
