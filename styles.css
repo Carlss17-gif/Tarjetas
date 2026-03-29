@@ -229,3 +229,23 @@ body {
     height: 20px;
   }
 }
+.qr-wrapper {
+  transition: background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.qr-black {
+  background: #0a0a0a !important;
+}
+
+.qr-silver {
+  background: #c0c0c0 !important;
+}
+
+.qr-gold {
+  background: linear-gradient(145deg, #ffcc66, #ff6a00) !important;
+  box-shadow: 0 0 18px rgba(255, 140, 0, 0.35);
+}
+
+.qr-wrapper canvas {
+  border-radius: 10px;
+}
