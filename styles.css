@@ -5,14 +5,12 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* VARIABLES */
 :root {
   --card-1: #0a0a0a;
   --card-2: #1a1a1a;
   --line: rgba(255,255,255,0.15);
 }
 
-/* CENTRADO */
 .wallet {
   width: 100vw;
   height: 100vh;
@@ -20,8 +18,6 @@ body {
   justify-content: center;
   align-items: center;
 }
-
-/* CARD */
 .card {
   width: 92vw;
   max-width: 750px;
@@ -31,7 +27,7 @@ body {
   position: relative;
 }
 
-/* 🔥 FIX REAL 3D STABILITY */
+/* STAGE FIX */
 .stage {
   width: 100%;
   height: 100%;
@@ -39,7 +35,6 @@ body {
   transform: translateZ(0);
 }
 
-/* INNER */
 .inner {
   width: 100%;
   height: 100%;
@@ -49,7 +44,6 @@ body {
   transition: transform 0.15s linear;
 }
 
-/* FACES */
 .face {
   position: absolute;
   width: 100%;
@@ -61,21 +55,17 @@ body {
   overflow: hidden;
 }
 
-/* FRONT */
 .front {
   background: linear-gradient(145deg, var(--card-1), var(--card-2));
   color: white;
-  position: relative;
-  overflow: hidden;
 }
 
-/* 🔥 BRILLO RESTAURADO (TU EFECTO ORIGINAL MEJORADO) */
 .front::after {
   content: "";
   position: absolute;
   inset: 0;
   background: radial-gradient(
-    circle at var(--lx, 50%) var(--ly, 50%),
+    circle at var(--lx,50%) var(--ly,50%),
     rgba(255,255,255,0.18),
     transparent 45%
   );
@@ -83,70 +73,41 @@ body {
   mix-blend-mode: screen;
 }
 
-/* BACK */
 .back {
   background: linear-gradient(145deg, var(--card-1), var(--card-2));
   transform: rotateY(180deg);
-  color: white;
 }
 
-/* LINEA SUPERIOR (PROMO NO SE ROMPE) */
-.back::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55px;
-  background: linear-gradient(90deg, var(--line), rgba(255,255,255,0.05), var(--line));
-  z-index: 1;
-}
-
-/* BACK CONTENT */
 .back-content {
   position: relative;
   z-index: 2;
   height: 100%;
   padding: 18px;
-  box-sizing: border-box;
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-/* PROMO */
 .promo {
   font-size: 12px;
-  opacity: 0.85;
+  opacity: 0.9;
   max-width: 60%;
 }
 
-/* QR */
 .qr-box {
   display: flex;
   justify-content: center;
-  align-items: center;
 }
 
 .qr-wrapper {
   background: white;
   padding: 10px;
   border-radius: 14px;
-  width: 110px;
-  height: 110px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-/* FOOTER */
 .footer {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
-
   border-top: 1px solid var(--line);
   padding-top: 10px;
 }
@@ -158,14 +119,11 @@ body {
 .legal {
   font-size: 8px;
   opacity: 0.6;
-  text-align: right;
   width: 65%;
+  text-align: right;
 }
 
-/* FRONT CONTENT */
 .content {
-  position: relative;
-  z-index: 2;
   height: 100%;
   padding: 22px;
   display: flex;
@@ -176,7 +134,6 @@ body {
 .top {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .logo {
@@ -184,48 +141,30 @@ body {
 }
 
 .emboss {
-  text-shadow:
-    0 1px 1px rgba(0,0,0,0.9),
-    0 -1px 1px rgba(255,255,255,0.08),
-    0 2px 4px rgba(0,0,0,0.6);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.6);
 }
 
 .number {
-  font-size: 22px;
+  font-size: 20px;
   letter-spacing: 2px;
 }
 
-/* MOBILE */
+.gold .emboss {
+  color: #111 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,0.2);
+}
+
 @media (max-width: 600px) {
   .card {
     width: 95vw;
     aspect-ratio: 1.6;
   }
 
-  .back-content {
-    padding: 14px;
-  }
-
   .qr-wrapper {
-    width: 92px;
-    height: 92px;
-    padding: 8px;
-  }
-
-  #qr {
-    width: 84px;
-    height: 84px;
+    transform: scale(0.9);
   }
 
   .promo {
     font-size: 11px;
-  }
-
-  .legal {
-    font-size: 7px;
-  }
-
-  .logo-small {
-    height: 20px;
   }
 }
