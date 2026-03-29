@@ -44,7 +44,7 @@ body {
 }
 
 /* =========================
-   FRENTE
+   FRENTE (INTACTO)
 ========================= */
 .front {
   background: linear-gradient(145deg, #000, #1a1a1a);
@@ -91,14 +91,8 @@ body {
   letter-spacing: 2px;
 }
 
-.bottom {
-  display: flex;
-  justify-content: space-between;
-  font-size: 14px;
-}
-
 /* =========================
-   BACK (DISEÑO PRO)
+   BACK (CORREGIDO)
 ========================= */
 .back {
   background: linear-gradient(145deg, #000, #1a1a1a);
@@ -106,7 +100,6 @@ body {
   color: white;
 }
 
-/* banda superior */
 .back::before {
   content: "";
   position: absolute;
@@ -118,72 +111,54 @@ body {
   z-index:1;
 }
 
-/* layout */
+/* BACK LAYOUT FIX */
 .back-content {
   position: relative;
-  z-index:2;
+  z-index: 2;
   height: 100%;
-  padding: 24px;
+  padding: 18px;
   box-sizing: border-box;
 
-  display: grid;
-
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
-
-  grid-template-areas:
-    "promo qr"
-    "logo legal";
-
-  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* ID */
-.card-id {
-  font-size: 20px;
-  letter-spacing: 3px;
-  opacity: 0.9;
+/* PROMO */
+.promo {
+  font-size: 12px;
+  opacity: 0.85;
+  max-width: 60%;
 }
 
 /* QR */
 .qr-box {
-  grid-area: qr;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-wrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 14px;
+
+  width: 110px;
+  height: 110px;
 
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* contenedor QR */
-.qr-wrapper {
-  position: relative;
-  width: 110px;
-  height: 110px;
-}
-
-#qr {
-  width: 110px;
-  height: 110px;
-}
-
-
-/* promo */
-.promo {
-  grid-area: promo;
-  font-size: 14px;
-  opacity: 0.85;
-
-  display: flex;
-  align-items: flex-start;
-}
-
-/* footer */
+/* FOOTER + LINEA GRIS */
 .footer {
-  grid-area: legal;
-
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 10px;
 }
 
 .logo-small {
@@ -191,90 +166,47 @@ body {
 }
 
 .legal {
-  font-size: 9px;
+  font-size: 8px;
   opacity: 0.6;
   text-align: right;
-  width: 100%;
+  width: 65%;
 }
 
-/* RESPONSIVE */
+/* =========================
+   MOBILE (CLAVE)
+========================= */
 @media (max-width: 600px) {
 
+  .card {
+    width: 95vw;
+    aspect-ratio: 1.6;
+  }
+
   .back-content {
-    padding: 18px;
-
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-
-    grid-template-areas:
-      "promo qr"
-      "logo legal";
-
-    gap: 8px;
-  }
-
-  .qr-wrapper {
-    width: 100px;
-    height: 100px;
-    background: white;
-    padding: 10px;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  #qr {
-    width: 90px;
-    height: 90px;
+    padding: 14px;
   }
 
   .promo {
-    font-size: 12px;
+    font-size: 11px;
+    max-width: 65%;
   }
 
-  .legal {
-    font-size: 8px;
+  .qr-wrapper {
+    width: 92px;
+    height: 92px;
+    padding: 8px;
+  }
+
+  #qr {
+    width: 84px;
+    height: 84px;
   }
 
   .logo-small {
-    height: 22px;
+    height: 20px;
+  }
+
+  .legal {
+    font-size: 7px;
   }
 }
-
-.brand-back{
-  grid-column:1/2;
-  grid-row:2/3;
-
-  display:flex;
-  justify-content:flex-start;
-  align-items:flex-end;
-}
-
-.brand-back img{
-  width: 80px;
-}
-
-
-.footer-legal{
-  grid-column: 2/3;
-  grid-row:2/3;
-
-  font-size:10px;
-  opacity:0.6;
-  text-align:right;
-
-  display:flex;
-  align-items:flex-end;
-  justify-content:flex-end;
-}
-.qr-box { grid-area: qr; }
-
-.promo { grid-area: promo; }
-
-.footer { grid-area: legal; }
-
-/* ESTE ES EL ERROR OCULTO */
-.brand-back { display: none; }
