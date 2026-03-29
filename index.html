@@ -15,12 +15,10 @@
 
   <div class="card" id="card">
 
-    <!-- 🔥 FIX IMPORTANTE: stage wrapper -->
     <div class="stage">
 
       <div class="inner" id="inner">
 
-        <!-- FRENTE -->
         <div class="face front">
 
           <div class="stars"></div>
@@ -28,27 +26,25 @@
           <div class="content">
             <div class="top">
               <img src="logo.png" class="logo">
-              <span class="emboss">PREMIUM</span>
+              <span class="emboss" id="cardType">BLACK</span>
             </div>
 
-            <div class="number emboss" id="cardNumber"></div>
+            <div class="number emboss" id="cardNumber">
+              C4RI JR06 00AX 0000
+            </div>
 
-            <div class="bottom"></div>
           </div>
 
         </div>
 
-        <!-- ATRÁS -->
         <div class="face back">
-
-          <div class="terminal"></div>
 
           <div class="back-content">
 
             <div class="promo" id="promoText"></div>
 
             <div class="qr-box">
-              <div class="qr-wrapper">
+              <div class="qr-wrapper" id="qrWrapper">
                 <canvas id="qr"></canvas>
               </div>
             </div>
@@ -68,6 +64,7 @@
       </div>
 
     </div>
+
   </div>
 
 </div>
