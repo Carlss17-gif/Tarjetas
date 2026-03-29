@@ -127,6 +127,7 @@ body {
   box-sizing: border-box;
 
   display: grid;
+
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 
@@ -181,7 +182,7 @@ body {
   grid-area: legal;
 
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-end;
 }
 
@@ -199,12 +200,9 @@ body {
 /* RESPONSIVE */
 @media (max-width: 600px) {
 
-  .card {
-    width: 95vw;
-    aspect-ratio: 1.6;
-  }
-
   .back-content {
+    padding: 18px;
+
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 
@@ -213,31 +211,36 @@ body {
       "logo legal";
 
     gap: 8px;
-    padding: 18px;
   }
 
   .qr-wrapper {
-  background: white;
-  padding: 10px;
-  border-radius: 14px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
-}
-
-  #qr {
     width: 100px;
     height: 100px;
+    background: white;
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #qr {
+    width: 90px;
+    height: 90px;
   }
 
   .promo {
     font-size: 12px;
   }
 
-  .logo-small {
-    height: 22px;
-  }
-
   .legal {
     font-size: 8px;
+  }
+
+  .logo-small {
+    height: 22px;
   }
 }
 
@@ -267,3 +270,11 @@ body {
   align-items:flex-end;
   justify-content:flex-end;
 }
+.qr-box { grid-area: qr; }
+
+.promo { grid-area: promo; }
+
+.footer { grid-area: legal; }
+
+/* ESTE ES EL ERROR OCULTO */
+.brand-back { display: none; }
