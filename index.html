@@ -15,42 +15,52 @@
 
   <div class="card" id="card">
 
-    <div class="inner" id="inner">
+    <!-- 🔥 FIX IMPORTANTE: stage wrapper -->
+    <div class="stage">
 
-      <!-- FRENTE -->
-      <div class="face front">
+      <div class="inner" id="inner">
 
-        <div class="stars"></div>
+        <!-- FRENTE -->
+        <div class="face front">
 
-        <div class="content">
-          <div class="top">
-            <img src="logo.png" class="logo">
-            <span class="emboss">PREMIUM</span>
+          <div class="stars"></div>
+
+          <div class="content">
+            <div class="top">
+              <img src="logo.png" class="logo">
+              <span class="emboss">PREMIUM</span>
+            </div>
+
+            <div class="number emboss" id="cardNumber"></div>
+
+            <div class="bottom"></div>
           </div>
 
-          <div class="number emboss" id="cardNumber"></div>
-          <div class="bottom"></div>
         </div>
 
-      </div>
+        <!-- ATRÁS -->
+        <div class="face back">
 
-      <!-- ATRÁS -->
-      <div class="face back">
+          <div class="terminal"></div>
 
-        <div class="back-content">
+          <div class="back-content">
 
-          <div class="promo" id="promoText"></div>
+            <div class="promo" id="promoText"></div>
 
-          <div class="qr-box">
-            <canvas id="qr"></canvas>
-          </div>
+            <div class="qr-box">
+              <div class="qr-wrapper">
+                <canvas id="qr"></canvas>
+              </div>
+            </div>
 
-          <div class="footer">
-            <img src="logo.png" class="logo-small">
+            <div class="footer">
+              <img src="logo.png" class="logo-small">
 
-            <p class="legal">
-              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE.
-            </p>
+              <p class="legal">
+                VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE.
+              </p>
+            </div>
+
           </div>
 
         </div>
