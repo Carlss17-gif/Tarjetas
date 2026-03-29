@@ -9,21 +9,17 @@ const card = document.getElementById("card");
 const front = document.querySelector(".front");
 
 let flipped = false;
-
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
-
 let dragging = false;
-
 let lightX = 50;
 let lightY = 50;
 
-/* ANIMACIÓN PRINCIPAL */
+/* ANIMACIÓN */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
     ty *= 0.92;
-
     if (Math.abs(tx) < 0.01) tx = 0;
     if (Math.abs(ty) < 0.01) ty = 0;
   }
@@ -40,7 +36,7 @@ function animate() {
 }
 animate();
 
-/* EFECTO DE LUZ */
+/* LUZ */
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
@@ -59,13 +55,11 @@ function updateFromPointer(e) {
   lightY = (y / rect.height) * 100;
 
   front.style.background = `
-    radial-gradient(
-      circle at ${lightX}% ${lightY}%,
-      rgba(255,255,255,0.14),
-      rgba(0,0,0,0.85) 55%,
-      #000 100%
-    ),
-    linear-gradient(145deg, #0a0a0a, #1a1a1a)
+    radial-gradient(circle at ${lightX}% ${lightY}%,
+    rgba(255,255,255,0.14),
+    rgba(0,0,0,0.85) 55%,
+    #000 100%),
+    linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2))
   `;
 }
 
@@ -76,7 +70,6 @@ let moved = false;
 card.addEventListener("pointerdown", (e) => {
   dragging = true;
   moved = false;
-
   card.setPointerCapture(e.pointerId);
 
   const rect = card.getBoundingClientRect();
@@ -100,18 +93,11 @@ card.addEventListener("pointermove", (e) => {
 
 card.addEventListener("pointerup", () => {
   dragging = false;
-
-  /* TAP = FLIP */
-  if (!moved) {
-    flipped = !flipped;
-  }
+  if (!moved) flipped = !flipped;
 
   tx *= 0.3;
   ty *= 0.3;
 });
-
-/* FORMATEO */
-const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
 /* QR */
 function generarQR(id) {
@@ -129,32 +115,56 @@ function generarQR(id) {
   );
 }
 
-/* 🔥 SUPABASE PROMO */
+/* TEMA */
+function applyTheme(type) {
+  const root = document.documentElement;
+
+  if (type === "gold") {
+    root.style.setProperty("--card-bg-1", "#3a2f00");
+    root.style.setProperty("--card-bg-2", "#d4af37");
+  } 
+  else if (type === "silver") {
+    root.style.setProperty("--card-bg-1", "#1a1a1a");
+    root.style.setProperty("--card-bg-2", "#9aa0a6");
+  } 
+  else {
+    root.style.setProperty("--card-bg-1", "#0a0a0a");
+    root.style.setProperty("--card-bg-2", "#1a1a1a");
+  }
+}
+
+/* SUPABASE */
 async function cargarPromocion() {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
       {
-        method: "GET",
         headers: {
           apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${SUPABASE_KEY}`
         }
       }
     );
 
     const data = await res.json();
 
-    if (data && data.length > 0) {
-      document.getElementById("promoText").innerText = data[0].promocion;
-    } else {
-      document.getElementById("promoText").innerText = "Sin promoción disponible";
+    if (!data.length) {
+      promoText.innerText = "Sin promoción";
+      applyTheme("black");
+      return;
     }
 
-  } catch (err) {
-    console.error("Error cargando promoción:", err);
-    document.getElementById("promoText").innerText = "Error al cargar promoción";
+    const promo = data[0].promocion;
+    document.getElementById("promoText").innerText = promo;
+
+    const p = promo.toLowerCase();
+
+    if (p.includes("dorada")) applyTheme("gold");
+    else if (p.includes("gris") || p.includes("plata")) applyTheme("silver");
+    else applyTheme("black");
+
+  } catch (e) {
+    console.error(e);
   }
 }
 
