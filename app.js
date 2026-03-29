@@ -7,40 +7,36 @@ const userId = params.get("id") || "00000000";
 const inner = document.getElementById("inner");
 const card = document.getElementById("card");
 const front = document.querySelector(".front");
+const premium = document.querySelector(".emboss");
 
 let flipped = false;
-
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
-
 let dragging = false;
 
 let lightX = 50;
 let lightY = 50;
 
-/* ANIMACIÓN PRINCIPAL */
+let themeGlow = "default";
+
+/* ANIMACIÓN */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
     ty *= 0.92;
-
-    if (Math.abs(tx) < 0.01) tx = 0;
-    if (Math.abs(ty) < 0.01) ty = 0;
   }
 
   rx += (tx - rx) * 0.12;
   ry += (ty - ry) * 0.12;
 
-  inner.style.transform = `
-    rotateX(${ry}deg)
-    rotateY(${rx + (flipped ? 180 : 0)}deg)
-  `;
+  inner.style.transform =
+    `rotateX(${ry}deg) rotateY(${rx + (flipped ? 180 : 0)}deg)`;
 
   requestAnimationFrame(animate);
 }
 animate();
 
-/* EFECTO DE LUZ */
+/* BRILLO TOUCH */
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
@@ -50,21 +46,21 @@ function updateFromPointer(e) {
   const nx = (x / rect.width) - 0.5;
   const ny = (y / rect.height) - 0.5;
 
-  const sens = 42;
-
-  tx = nx * sens;
-  ty = -ny * sens;
+  tx = nx * 42;
+  ty = -ny * 42;
 
   lightX = (x / rect.width) * 100;
   lightY = (y / rect.height) * 100;
 
+  let glowColor = "rgba(255,255,255,0.12)";
+
+  if (themeGlow === "gold") glowColor = "rgba(255, 215, 80, 0.25)";
+  if (themeGlow === "platinum") glowColor = "rgba(200,200,220,0.22)";
+  if (themeGlow === "black") glowColor = "rgba(255,255,255,0.10)";
+
   front.style.background = `
-    radial-gradient(
-      circle at ${lightX}% ${lightY}%,
-      rgba(255,255,255,0.14),
-      rgba(0,0,0,0.85) 55%,
-      #000 100%
-    ),
+    radial-gradient(circle at ${lightX}% ${lightY}%,
+    ${glowColor}, rgba(0,0,0,0.85) 55%, #000 100%),
     linear-gradient(145deg, #0a0a0a, #1a1a1a)
   `;
 }
@@ -76,7 +72,6 @@ let moved = false;
 card.addEventListener("pointerdown", (e) => {
   dragging = true;
   moved = false;
-
   card.setPointerCapture(e.pointerId);
 
   const rect = card.getBoundingClientRect();
@@ -100,18 +95,32 @@ card.addEventListener("pointermove", (e) => {
 
 card.addEventListener("pointerup", () => {
   dragging = false;
-
-  /* TAP = FLIP */
-  if (!moved) {
-    flipped = !flipped;
-  }
-
+  if (!moved) flipped = !flipped;
   tx *= 0.3;
   ty *= 0.3;
 });
 
-/* FORMATEO */
-const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
+/* TEMA */
+function aplicarTema(tipo) {
+  const t = tipo.toLowerCase();
+
+  if (t.includes("negra") || t.includes("black")) {
+    themeGlow = "black";
+    premium.innerText = "BLACK";
+  }
+  else if (t.includes("dorada") || t.includes("gold") || t.includes("oro")) {
+    themeGlow = "gold";
+    premium.innerText = "GOLD";
+  }
+  else if (t.includes("gris") || t.includes("platinum") || t.includes("plata")) {
+    themeGlow = "platinum";
+    premium.innerText = "PLATINUM";
+  }
+  else {
+    themeGlow = "default";
+    premium.innerText = "PREMIUM";
+  }
+}
 
 /* QR */
 function generarQR(id) {
@@ -119,27 +128,25 @@ function generarQR(id) {
     document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
-      width: 100,
+      width: 110,
       margin: 1,
       color: {
-        dark: "#aaaaaa",
-        light: "#0a0a0a"
+        dark: "#ffffff",
+        light: "transparent"
       }
     }
   );
 }
 
-/* 🔥 SUPABASE PROMO */
+/* SUPABASE */
 async function cargarPromocion() {
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
       {
-        method: "GET",
         headers: {
           apikey: SUPABASE_KEY,
-          Authorization: `Bearer ${SUPABASE_KEY}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${SUPABASE_KEY}`
         }
       }
     );
@@ -147,14 +154,13 @@ async function cargarPromocion() {
     const data = await res.json();
 
     if (data && data.length > 0) {
-      document.getElementById("promoText").innerText = data[0].promocion;
-    } else {
-      document.getElementById("promoText").innerText = "Sin promoción disponible";
-    }
+      const promo = data[0].promocion;
+      document.getElementById("promoText").innerText = promo;
 
-  } catch (err) {
-    console.error("Error cargando promoción:", err);
-    document.getElementById("promoText").innerText = "Error al cargar promoción";
+      aplicarTema(promo);
+    }
+  } catch (e) {
+    console.error(e);
   }
 }
 
