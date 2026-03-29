@@ -8,12 +8,15 @@ const inner = document.getElementById("inner");
 const card = document.getElementById("card");
 const front = document.querySelector(".front");
 
-let flipped = false;
+const cardType = document.getElementById("cardType");
+const cardNumber = document.getElementById("cardNumber");
+const promoText = document.getElementById("promoText");
+
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
 let dragging = false;
+let flipped = false;
 
-/* ANIMACIÓN */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
@@ -24,57 +27,50 @@ function animate() {
   ry += (ty - ry) * 0.12;
 
   inner.style.transform =
-    `rotateX(${ry}deg)
-     rotateY(${rx + (flipped ? 180 : 0)}deg)`;
+    `rotateX(${ry}deg) rotateY(${rx + (flipped ? 180 : 0)}deg)`;
 
   requestAnimationFrame(animate);
 }
 animate();
 
-/* LUZ */
-function updateFromPointer(e) {
-  const rect = card.getBoundingClientRect();
+function updateLight(e) {
+  const r = card.getBoundingClientRect();
 
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
 
-  const nx = (x / rect.width) - 0.5;
-  const ny = (y / rect.height) - 0.5;
+  const nx = x / r.width;
+  const ny = y / r.height;
 
-  tx = nx * 42;
-  ty = -ny * 42;
+  tx = (nx - 0.5) * 40;
+  ty = -(ny - 0.5) * 40;
 
-  const lightX = (x / rect.width) * 100;
-  const lightY = (y / rect.height) * 100;
-
-  document.documentElement.style.setProperty("--lx", `${lightX}%`);
-  document.documentElement.style.setProperty("--ly", `${lightY}%`);
+  document.documentElement.style.setProperty("--lx", `${nx * 100}%`);
+  document.documentElement.style.setProperty("--ly", `${ny * 100}%`);
 }
 
-/* INTERACCIÓN */
-let startX = 0, startY = 0;
-let moved = false;
+let startX = 0, startY = 0, moved = false;
 
-card.addEventListener("pointerdown", (e) => {
+card.addEventListener("pointerdown", e => {
   dragging = true;
   moved = false;
   card.setPointerCapture(e.pointerId);
 
-  const rect = card.getBoundingClientRect();
-  startX = e.clientX - rect.left;
-  startY = e.clientY - rect.top;
+  const r = card.getBoundingClientRect();
+  startX = e.clientX - r.left;
+  startY = e.clientY - r.top;
 });
 
-card.addEventListener("pointermove", (e) => {
+card.addEventListener("pointermove", e => {
   if (!dragging) return;
 
-  const rect = card.getBoundingClientRect();
-  const x = e.clientX - rect.left;
-  const y = e.clientY - rect.top;
+  const r = card.getBoundingClientRect();
+  const x = e.clientX - r.left;
+  const y = e.clientY - r.top;
 
   if (Math.abs(x - startX) > 6 || Math.abs(y - startY) > 6) moved = true;
 
-  updateFromPointer(e);
+  updateLight(e);
 });
 
 card.addEventListener("pointerup", () => {
@@ -84,24 +80,21 @@ card.addEventListener("pointerup", () => {
   ty *= 0.3;
 });
 
-/* QR */
-function generarQR(id) {
-  QRCode.toCanvas(
-    document.getElementById("qr"),
+function qr(id) {
+  QRCode.toCanvas(document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
       width: 100,
       margin: 1,
       color: {
-        dark: "#aaaaaa",
-        light: "#00000000"
+        dark: "#fff",
+        light: "transparent"
       }
     }
   );
 }
 
-/* SUPABASE */
-async function cargarPromocion() {
+async function load() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
     {
@@ -113,16 +106,27 @@ async function cargarPromocion() {
   );
 
   const data = await res.json();
+  const promo = data?.[0]?.promocion?.toLowerCase() || "";
 
-  const promo = data?.[0]?.promocion || "Sin promoción";
-  document.getElementById("promoText").innerText = promo;
+  let bg = "#000";
+  let label = "PREMIUM";
+
+  if (promo.includes("dorada")) {
+    bg = "#3a2f00";
+    label = "GOLD";
+  } else if (promo.includes("gris")) {
+    bg = "#1a1a1a";
+    label = "PLATINUM";
+  }
+
+  document.documentElement.style.setProperty("--bg1", bg);
+
+  cardType.innerText = label;
 
   const short = userId.slice(0, 4);
-  document.getElementById("cardNumber").innerText =
-    `C4RI JR06 00AX ${short}`;
+  cardNumber.innerText = `C4RI JR06 00AX ${short}`;
 
-  generarQR(userId);
+  qr(userId);
 }
 
-/* INIT */
-window.addEventListener("load", cargarPromocion);;
+window.addEventListener("load", load);
