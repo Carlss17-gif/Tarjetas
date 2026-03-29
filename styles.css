@@ -130,6 +130,10 @@ body {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr;
 
+  grid-template-areas:
+    "promo qr"
+    "logo legal";
+
   gap: 10px;
 }
 
@@ -142,12 +146,11 @@ body {
 
 /* QR */
 .qr-box {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  grid-area: qr;
 
-  align-self:start;
-  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* contenedor QR */
@@ -165,60 +168,76 @@ body {
 
 /* promo */
 .promo {
-  grid-column: 1/2;
-  grid-row: 1/2;
-
-  align-self: start;
+  grid-area: promo;
   font-size: 14px;
   opacity: 0.85;
+
+  display: flex;
+  align-items: flex-start;
 }
 
 /* footer */
 .footer {
-  grid-column: 1 / 3;
+  grid-area: legal;
 
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: flex-end;
 }
 
 .logo-small {
-  height: 26px;
+  height: 24px;
 }
 
 .legal {
   font-size: 9px;
-  width: 65%;
-  text-align: right;
   opacity: 0.6;
-  color: white;
+  text-align: right;
+  width: 100%;
 }
 
 /* RESPONSIVE */
 @media (max-width: 600px) {
-  .back-content{
-    grid-template-colums:1fr 1fr;
-    grid-templade-rows: 1fr 1fr;
-    gap: 8px;
+
+  .card {
+    width: 95vw;
+    aspect-ratio: 1.6;
   }
 
-  .qr-box {
-    width: 90px;
-    height: 90px;
-    align-self: start;
+  .back-content {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+
+    grid-template-areas:
+      "promo qr"
+      "logo legal";
+
+    gap: 8px;
+    padding: 18px;
   }
-  .promo{
+
+  .qr-wrapper {
+  background: white;
+  padding: 10px;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.35);
+}
+
+  #qr {
+    width: 100px;
+    height: 100px;
+  }
+
+  .promo {
     font-size: 12px;
   }
-  .brand-back img {
-    width: 60px;
+
+  .logo-small {
+    height: 22px;
   }
-  .legal{
+
+  .legal {
     font-size: 8px;
-  }
-  #qr {
-    width: 90px;
-    height: 90px;
   }
 }
 
