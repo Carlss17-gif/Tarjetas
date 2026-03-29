@@ -6,17 +6,14 @@ const userId = params.get("id") || "00000000";
 
 const inner = document.getElementById("inner");
 const card = document.getElementById("card");
+const front = document.querySelector(".front");
 
-const cardType = document.getElementById("cardType");
-const cardNumber = document.getElementById("cardNumber");
-const promoText = document.getElementById("promoText");
-
+let flipped = false;
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
 let dragging = false;
-let flipped = false;
 
-/* ANIM */
+/* ANIMACIÓN */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
@@ -35,59 +32,76 @@ function animate() {
 animate();
 
 /* LUZ */
-function move(e) {
-  const r = card.getBoundingClientRect();
-  tx = ((e.clientX - r.left) / r.width - 0.5) * 40;
-  ty = -((e.clientY - r.top) / r.height - 0.5) * 40;
+function updateFromPointer(e) {
+  const rect = card.getBoundingClientRect();
+
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  const nx = (x / rect.width) - 0.5;
+  const ny = (y / rect.height) - 0.5;
+
+  tx = nx * 42;
+  ty = -ny * 42;
+
+  const lightX = (x / rect.width) * 100;
+  const lightY = (y / rect.height) * 100;
+
+  document.documentElement.style.setProperty("--lx", `${lightX}%`);
+  document.documentElement.style.setProperty("--ly", `${lightY}%`);
 }
 
-/* DRAG */
-let startX = 0, startY = 0, moved = false;
+/* INTERACCIÓN */
+let startX = 0, startY = 0;
+let moved = false;
 
-card.addEventListener("pointerdown", e => {
+card.addEventListener("pointerdown", (e) => {
   dragging = true;
   moved = false;
   card.setPointerCapture(e.pointerId);
 
-  const r = card.getBoundingClientRect();
-  startX = e.clientX - r.left;
-  startY = e.clientY - r.top;
+  const rect = card.getBoundingClientRect();
+  startX = e.clientX - rect.left;
+  startY = e.clientY - rect.top;
 });
 
-card.addEventListener("pointermove", e => {
+card.addEventListener("pointermove", (e) => {
   if (!dragging) return;
 
-  const r = card.getBoundingClientRect();
-  const x = e.clientX - r.left;
-  const y = e.clientY - r.top;
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  if (Math.abs(x - startX) > 5 || Math.abs(y - startY) > 5) moved = true;
+  if (Math.abs(x - startX) > 6 || Math.abs(y - startY) > 6) moved = true;
 
-  move(e);
+  updateFromPointer(e);
 });
 
 card.addEventListener("pointerup", () => {
   dragging = false;
   if (!moved) flipped = !flipped;
+  tx *= 0.3;
+  ty *= 0.3;
 });
 
 /* QR */
-function qr(id) {
-  QRCode.toCanvas(document.getElementById("qr"),
+function generarQR(id) {
+  QRCode.toCanvas(
+    document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
-      width: 110,
-      margin: 0,
+      width: 100,
+      margin: 1,
       color: {
-        dark: "#fff",
-        light: "transparent"
+        dark: "#aaaaaa",
+        light: "#00000000"
       }
     }
   );
 }
 
 /* SUPABASE */
-async function load() {
+async function cargarPromocion() {
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
     {
@@ -99,35 +113,16 @@ async function load() {
   );
 
   const data = await res.json();
-  if (!data.length) return;
 
-  const promo = data[0].promocion.toLowerCase();
-
-  let theme = "black";
-  let label = "BLACK";
-
-  if (promo.includes("dorada")) {
-    theme = "gold";
-    label = "GOLD";
-    document.querySelector(".front").style.background = "linear-gradient(145deg,#3a2f00,#ffcc66)";
-  }
-
-  else if (promo.includes("gris")) {
-    theme = "silver";
-    label = "PLATINUM";
-    document.querySelector(".front").style.background = "linear-gradient(145deg,#1a1a1a,#c0c0c0)";
-  }
-
-  else {
-    document.querySelector(".front").style.background = "linear-gradient(145deg,#111,#222)";
-  }
-
-  cardType.innerText = label;
+  const promo = data?.[0]?.promocion || "Sin promoción";
+  document.getElementById("promoText").innerText = promo;
 
   const short = userId.slice(0, 4);
-  cardNumber.innerText = `C4RI JR06 00AX ${short}`;
+  document.getElementById("cardNumber").innerText =
+    `C4RI JR06 00AX ${short}`;
 
-  qr(userId);
+  generarQR(userId);
 }
 
-window.addEventListener("load", load);
+/* INIT */
+window.addEventListener("load", cargarPromocion);;
