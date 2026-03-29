@@ -12,8 +12,6 @@ let flipped = false;
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
 let dragging = false;
-let lightX = 50;
-let lightY = 50;
 
 /* ANIMACIÓN */
 function animate() {
@@ -36,31 +34,24 @@ function animate() {
 }
 animate();
 
-/* LUZ */
+/* LUZ + METAL REAL */
 function updateFromPointer(e) {
   const rect = card.getBoundingClientRect();
 
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  const nx = (x / rect.width) - 0.5;
-  const ny = (y / rect.height) - 0.5;
+  const nx = (x / rect.width);
+  const ny = (y / rect.height);
 
   const sens = 42;
 
-  tx = nx * sens;
-  ty = -ny * sens;
+  tx = (nx - 0.5) * sens;
+  ty = -(ny - 0.5) * sens;
 
-  lightX = (x / rect.width) * 100;
-  lightY = (y / rect.height) * 100;
-
-  front.style.background = `
-    radial-gradient(circle at ${lightX}% ${lightY}%,
-    rgba(255,255,255,0.14),
-    rgba(0,0,0,0.85) 55%,
-    #000 100%),
-    linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2))
-  `;
+  /* 🔥 BRILLO METÁLICO */
+  document.documentElement.style.setProperty("--lx", `${nx * 100}%`);
+  document.documentElement.style.setProperty("--ly", `${ny * 100}%`);
 }
 
 /* INTERACCIÓN */
@@ -115,21 +106,26 @@ function generarQR(id) {
   );
 }
 
-/* TEMA */
+/* TEMA METÁLICO */
 function applyTheme(type) {
   const root = document.documentElement;
 
   if (type === "gold") {
-    root.style.setProperty("--card-bg-1", "#3a2f00");
-    root.style.setProperty("--card-bg-2", "#d4af37");
-  } 
+    root.style.setProperty("--card-1", "#3a2f00");
+    root.style.setProperty("--card-2", "#f5d76e");
+    root.style.setProperty("--line", "rgba(245,215,110,0.35)");
+  }
+
   else if (type === "silver") {
-    root.style.setProperty("--card-bg-1", "#1a1a1a");
-    root.style.setProperty("--card-bg-2", "#9aa0a6");
-  } 
+    root.style.setProperty("--card-1", "#1a1a1a");
+    root.style.setProperty("--card-2", "#c0c0c0");
+    root.style.setProperty("--line", "rgba(192,192,192,0.35)");
+  }
+
   else {
-    root.style.setProperty("--card-bg-1", "#0a0a0a");
-    root.style.setProperty("--card-bg-2", "#1a1a1a");
+    root.style.setProperty("--card-1", "#0a0a0a");
+    root.style.setProperty("--card-2", "#1a1a1a");
+    root.style.setProperty("--line", "rgba(255,255,255,0.15)");
   }
 }
 
@@ -148,11 +144,7 @@ async function cargarPromocion() {
 
     const data = await res.json();
 
-    if (!data.length) {
-      promoText.innerText = "Sin promoción";
-      applyTheme("black");
-      return;
-    }
+    if (!data.length) return;
 
     const promo = data[0].promocion;
     document.getElementById("promoText").innerText = promo;
