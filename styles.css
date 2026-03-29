@@ -14,7 +14,7 @@ body {
   align-items: center;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* TARJETA */
 .card {
   width: 92vw;
   max-width: 750px;
@@ -23,17 +23,16 @@ body {
   touch-action: none;
 }
 
-/* ELEMENTO QUE GIRA */
+/* INNER */
 .inner {
   width: 100%;
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
   will-change: transform;
-  transition: transform 0.15s linear;
 }
 
-/* CARAS */
+/* FACES */
 .face {
   position: absolute;
   width: 100%;
@@ -43,11 +42,9 @@ body {
   overflow: hidden;
 }
 
-/* =========================
-   FRENTE (INTACTO)
-========================= */
+/* FRONT */
 .front {
-  background: linear-gradient(145deg, #000, #1a1a1a);
+  background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
   color: white;
 }
 
@@ -82,43 +79,18 @@ body {
 .emboss {
   text-shadow:
     0 1px 1px rgba(0,0,0,0.9),
-    0 -1px 1px rgba(255,255,255,0.08),
-    0 2px 4px rgba(0,0,0,0.6);
+    0 -1px 1px rgba(255,255,255,0.08);
 }
 
-.number {
-  font-size: 22px;
-  letter-spacing: 2px;
-}
-
-/* =========================
-   BACK (CORREGIDO)
-========================= */
+/* BACK */
 .back {
-  background: linear-gradient(145deg, #000, #1a1a1a);
+  background: linear-gradient(145deg, #0a0a0a, #1a1a1a);
   transform: rotateY(180deg);
-  color: white;
 }
 
-.back::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 55px;
-  background: linear-gradient(90deg,#111,#333,#111);
-  z-index:1;
-}
-
-/* BACK LAYOUT FIX */
 .back-content {
-  position: relative;
-  z-index: 2;
   height: 100%;
-  padding: 18px;
-  box-sizing: border-box;
-
+  padding: 16px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -128,53 +100,46 @@ body {
 .promo {
   font-size: 12px;
   opacity: 0.85;
-  max-width: 60%;
+  max-width: 70%;
 }
 
-/* QR */
+/* QR SIN FONDO BLANCO */
 .qr-box {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.qr-wrapper {
-  background: white;
-  padding: 10px;
-  border-radius: 14px;
-
+#qr {
   width: 110px;
   height: 110px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  padding: 8px;
+  border-radius: 14px;
+  background: transparent;
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.08));
 }
 
-/* FOOTER + LINEA GRIS */
+/* FOOTER */
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-
-  border-top: 1px solid rgba(255,255,255,0.15);
+  border-top: 1px solid rgba(255,255,255,0.12);
   padding-top: 10px;
 }
 
 .logo-small {
-  height: 24px;
+  height: 22px;
 }
 
 .legal {
-  font-size: 8px;
+  font-size: 7px;
   opacity: 0.6;
-  text-align: right;
   width: 65%;
+  text-align: right;
 }
 
-/* =========================
-   MOBILE (CLAVE)
-========================= */
+/* MOBILE */
 @media (max-width: 600px) {
 
   .card {
@@ -182,31 +147,12 @@ body {
     aspect-ratio: 1.6;
   }
 
-  .back-content {
-    padding: 14px;
+  #qr {
+    width: 90px;
+    height: 90px;
   }
 
   .promo {
     font-size: 11px;
-    max-width: 65%;
-  }
-
-  .qr-wrapper {
-    width: 92px;
-    height: 92px;
-    padding: 8px;
-  }
-
-  #qr {
-    width: 84px;
-    height: 84px;
-  }
-
-  .logo-small {
-    height: 20px;
-  }
-
-  .legal {
-    font-size: 7px;
   }
 }
