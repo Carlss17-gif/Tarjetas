@@ -15,49 +15,42 @@
 
   <div class="card" id="card">
 
-    <div class="stage">
+    <div class="inner" id="inner">
 
-      <div class="inner" id="inner">
+      <!-- FRONT -->
+      <div class="face front">
 
-        <!-- FRONT -->
-        <div class="face front">
+        <div class="content">
 
-          <div class="content">
+          <div class="top">
+            <img src="logo.png" class="logo">
+            <span id="cardType">BLACK</span>
+          </div>
 
-            <div class="top">
-              <img src="logo.png" class="logo">
-              <span class="emboss" id="cardType">BLACK</span>
-            </div>
-
-            <div class="number" id="cardNumber">
-              C4RI JR06 00AX 0000
-            </div>
-
+          <!-- 🔥 CENTRO REAL -->
+          <div class="center-number" id="cardNumber">
+            C4RI JR06 00AX 0000
           </div>
 
         </div>
 
-        <!-- BACK -->
-        <div class="face back">
+      </div>
 
-          <div class="back-content">
+      <!-- BACK -->
+      <div class="face back">
 
-            <div class="promo" id="promoText"></div>
+        <div class="back-content">
 
-            <div class="qr-box">
-              <div class="qr-wrapper" id="qrWrapper">
-                <canvas id="qr"></canvas>
-              </div>
-            </div>
+          <div class="promo" id="promoText"></div>
 
-            <div class="footer">
-              <img src="logo.png" class="logo-small">
+          <canvas id="qr"></canvas>
 
-              <p class="legal">
-                VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES.
-              </p>
-            </div>
+          <div class="footer">
+            <img src="logo.png" class="logo-small">
 
+            <p class="legal">
+              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES.
+            </p>
           </div>
 
         </div>
@@ -65,7 +58,6 @@
       </div>
 
     </div>
-
   </div>
 
 </div>
