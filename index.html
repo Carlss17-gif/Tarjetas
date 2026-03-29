@@ -20,18 +20,17 @@
       <!-- FRONT -->
       <div class="face front">
 
-        <div class="content">
+        <div class="stars"></div>
 
+        <div class="content">
           <div class="top">
             <img src="logo.png" class="logo">
-            <span id="cardType">BLACK</span>
+            <span class="emboss" id="cardType">PREMIUM</span>
           </div>
 
-          <!-- 🔥 CENTRO REAL -->
-          <div class="center-number" id="cardNumber">
+          <div class="number emboss" id="cardNumber">
             C4RI JR06 00AX 0000
           </div>
-
         </div>
 
       </div>
@@ -39,17 +38,23 @@
       <!-- BACK -->
       <div class="face back">
 
+        <div class="terminal"></div>
+
         <div class="back-content">
 
           <div class="promo" id="promoText"></div>
 
-          <canvas id="qr"></canvas>
+          <div class="qr-box">
+            <div class="qr-wrapper">
+              <canvas id="qr"></canvas>
+            </div>
+          </div>
 
           <div class="footer">
             <img src="logo.png" class="logo-small">
 
             <p class="legal">
-              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES.
+              VIGENCIA AL 31 DE DICIEMBRE DE 2026. NO VÁLIDO CON OTRAS PROMOCIONES. VÁLIDO SOLO EN SUCURSAL. NO TRANSFERIBLE.
             </p>
           </div>
 
