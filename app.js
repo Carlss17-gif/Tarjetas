@@ -81,13 +81,15 @@ card.addEventListener("pointerup", () => {
 });
 
 function qr(id) {
-  QRCode.toCanvas(document.getElementById("qr"),
+  const canvas = document.getElementById("qr");
+
+  QRCode.toCanvas(canvas,
     `https://consultapromo.vercel.app/?id=${id}`,
     {
-      width: 100,
+      width: 110,
       margin: 1,
       color: {
-        dark: "#fff",
+        dark: "#ffffff",
         light: "transparent"
       }
     }
