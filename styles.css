@@ -2,9 +2,10 @@ body {
   margin: 0;
   background: #000;
   overflow: hidden;
-  font-family: Arial;
+  font-family: Arial, sans-serif;
 }
 
+/* CENTRADO */
 .wallet {
   width: 100vw;
   height: 100vh;
@@ -16,9 +17,10 @@ body {
 /* CARD */
 .card {
   width: 92vw;
-  max-width: 720px;
+  max-width: 750px;
   aspect-ratio: 1.7;
   perspective: 1200px;
+  touch-action: none;
 }
 
 .inner {
@@ -26,109 +28,27 @@ body {
   height: 100%;
   position: relative;
   transform-style: preserve-3d;
+  will-change: transform;
 }
 
 /* FACES */
 .face {
   position: absolute;
-  inset: 0;
-  border-radius: 20px;
+  width: 100%;
+  height: 100%;
+  border-radius: 22px;
   backface-visibility: hidden;
+  overflow: hidden;
 }
 
 /* FRONT */
 .front {
-  background: linear-gradient(145deg, #111, #222);
+  background: linear-gradient(145deg, #000, #1a1a1a);
   color: white;
-}
-
-.content {
-  height: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-}
-
-/* TOP */
-.top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  height: 35px;
-}
-
-.center-number {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  font-size: 18px;
-  letter-spacing: 2px;
-  text-align: center;
-}
-
-/* BACK */
-.back {
-  transform: rotateY(180deg);
-  background: linear-gradient(145deg, #111, #222);
-}
-
-.back-content {
-  height: 100%;
-  padding: 16px;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* PROMO */
-.promo {
-  font-size: 12px;
-  text-align: center;
-  opacity: 0.9;
-}
-
-/* QR SIN FONDO */
-canvas {
-  background: transparent !important;
-}
-
-/* FOOTER */
-.footer {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-}
-
-.logo-small {
-  height: 22px;
-}
-
-.legal {
-  font-size: 8px;
-  width: 65%;
-  opacity: 0.6;
-  text-align: right;
-}
-
-/* MOBILE */
-@media (max-width: 600px) {
-  .center-number {
-    font-size: 14px;
-  }
-}
-
-.front {
   position: relative;
 }
 
+/* 🔥 BRILLO QUE SIGUE EL DEDO */
 .front::after {
   content: "";
   position: absolute;
@@ -136,19 +56,123 @@ canvas {
   background: radial-gradient(
     circle at var(--lx, 50%) var(--ly, 50%),
     rgba(255,255,255,0.18),
-    rgba(0,0,0,0.85) 60%,
-    #000 100%
+    rgba(0,0,0,0.85) 60%
   );
   pointer-events: none;
-  mix-blend-mode: screen;
 }
 
+/* CONTENIDO FRONT */
+.content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+}
+
+.emboss {
+  text-shadow:
+    0 1px 1px rgba(0,0,0,0.9),
+    0 -1px 1px rgba(255,255,255,0.08);
+}
+
+.number {
+  font-size: 18px;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+/* BACK */
+.back {
+  background: linear-gradient(145deg, #000, #1a1a1a);
+  transform: rotateY(180deg);
+  color: white;
+}
+
+/* 🔥 LÍNEA SUPERIOR RESTAURADA */
 .back::before {
-  opacity: 1 !important;
-  z-index: 10 !important;
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55px;
+  background: linear-gradient(90deg, #111, #333, #111);
+  z-index: 1;
+}
+
+.back-content {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* PROMO */
+.promo {
+  font-size: 12px;
+  opacity: 0.85;
+  max-width: 65%;
+}
+
+/* QR */
+.qr-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .qr-wrapper {
-  background: transparent !important;
-  padding: 0 !important;
+  background: transparent;
+  padding: 0;
+}
+
+/* FOOTER */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  padding-top: 10px;
+}
+
+.logo-small {
+  height: 24px;
+}
+
+.legal {
+  font-size: 8px;
+  opacity: 0.6;
+  width: 65%;
+  text-align: right;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .card {
+    width: 95vw;
+    aspect-ratio: 1.6;
+  }
+
+  .number {
+    font-size: 14px;
+  }
+
+  .promo {
+    font-size: 11px;
+  }
 }
