@@ -113,8 +113,6 @@ card.addEventListener("pointerup", () => {
 /* FORMATEO */
 const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
-
-
 /* QR */
 function generarQR(id) {
   QRCode.toCanvas(
@@ -130,4 +128,38 @@ function generarQR(id) {
     }
   );
 }
-window.addEventListener("load",()=>{generarQR(userId);});
+
+/* 🔥 SUPABASE PROMO */
+async function cargarPromocion() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
+      {
+        method: "GET",
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json"
+        }
+      }
+    );
+
+    const data = await res.json();
+
+    if (data && data.length > 0) {
+      document.getElementById("promoText").innerText = data[0].promocion;
+    } else {
+      document.getElementById("promoText").innerText = "Sin promoción disponible";
+    }
+
+  } catch (err) {
+    console.error("Error cargando promoción:", err);
+    document.getElementById("promoText").innerText = "Error al cargar promoción";
+  }
+}
+
+/* INIT */
+window.addEventListener("load", () => {
+  generarQR(userId);
+  cargarPromocion();
+});
