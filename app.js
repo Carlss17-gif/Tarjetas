@@ -6,78 +6,112 @@ const userId = params.get("id") || "00000000";
 
 const inner = document.getElementById("inner");
 const card = document.getElementById("card");
+const front = document.querySelector(".front");
+
+let flipped = false;
 
 let rx = 0, ry = 0;
 let tx = 0, ty = 0;
-let dragging = false;
-let flipped = false;
 
-/* ANIMACIÓN */
+let dragging = false;
+
+let lightX = 50;
+let lightY = 50;
+
+/* ANIMACIÓN PRINCIPAL */
 function animate() {
   if (!dragging) {
     tx *= 0.92;
     ty *= 0.92;
+
+    if (Math.abs(tx) < 0.01) tx = 0;
+    if (Math.abs(ty) < 0.01) ty = 0;
   }
 
   rx += (tx - rx) * 0.12;
   ry += (ty - ry) * 0.12;
 
-  inner.style.transform =
-    `rotateX(${ry}deg) rotateY(${rx + (flipped ? 180 : 0)}deg)`;
+  inner.style.transform = `
+    rotateX(${ry}deg)
+    rotateY(${rx + (flipped ? 180 : 0)}deg)
+  `;
 
   requestAnimationFrame(animate);
 }
 animate();
 
-/* LUZ */
-function updateLight(e) {
-  const r = card.getBoundingClientRect();
+/* EFECTO DE LUZ */
+function updateFromPointer(e) {
+  const rect = card.getBoundingClientRect();
 
-  const x = e.clientX - r.left;
-  const y = e.clientY - r.top;
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  const nx = x / r.width;
-  const ny = y / r.height;
+  const nx = (x / rect.width) - 0.5;
+  const ny = (y / rect.height) - 0.5;
 
-  tx = (nx - 0.5) * 40;
-  ty = -(ny - 0.5) * 40;
+  const sens = 42;
 
-  document.documentElement.style.setProperty("--lx", `${nx * 100}%`);
-  document.documentElement.style.setProperty("--ly", `${ny * 100}%`);
+  tx = nx * sens;
+  ty = -ny * sens;
+
+  lightX = (x / rect.width) * 100;
+  lightY = (y / rect.height) * 100;
+
+  front.style.background = `
+    radial-gradient(
+      circle at ${lightX}% ${lightY}%,
+      rgba(255,255,255,0.14),
+      rgba(0,0,0,0.85) 55%,
+      #000 100%
+    ),
+    linear-gradient(145deg, #0a0a0a, #1a1a1a)
+  `;
 }
 
 /* INTERACCIÓN */
-let startX = 0, startY = 0, moved = false;
+let startX = 0, startY = 0;
+let moved = false;
 
 card.addEventListener("pointerdown", (e) => {
   dragging = true;
   moved = false;
+
   card.setPointerCapture(e.pointerId);
 
-  const r = card.getBoundingClientRect();
-  startX = e.clientX - r.left;
-  startY = e.clientY - r.top;
+  const rect = card.getBoundingClientRect();
+  startX = e.clientX - rect.left;
+  startY = e.clientY - rect.top;
 });
 
 card.addEventListener("pointermove", (e) => {
   if (!dragging) return;
 
-  const r = card.getBoundingClientRect();
-  const x = e.clientX - r.left;
-  const y = e.clientY - r.top;
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
 
-  if (Math.abs(x - startX) > 6 || Math.abs(y - startY) > 6) moved = true;
+  if (Math.abs(x - startX) > 6 || Math.abs(y - startY) > 6) {
+    moved = true;
+  }
 
-  updateLight(e);
+  updateFromPointer(e);
 });
 
 card.addEventListener("pointerup", () => {
   dragging = false;
-  if (!moved) flipped = !flipped;
+
+  /* TAP = FLIP */
+  if (!moved) {
+    flipped = !flipped;
+  }
 
   tx *= 0.3;
   ty *= 0.3;
 });
+
+/* FORMATEO */
+const formatted = userId.match(/.{1,4}/g)?.join(" ") || userId;
 
 /* QR */
 function generarQR(id) {
@@ -85,46 +119,47 @@ function generarQR(id) {
     document.getElementById("qr"),
     `https://consultapromo.vercel.app/?id=${id}`,
     {
-      width: 110,
+      width: 100,
       margin: 1,
       color: {
-        dark: "#ffffff",
-        light: "transparent"
+        dark: "#aaaaaa",
+        light: "#0a0a0a"
       }
     }
   );
 }
 
-/* SUPABASE */
-async function cargar() {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
-    {
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`
+/* 🔥 SUPABASE PROMO */
+async function cargarPromocion() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/usuarios_promocion?id_invitado_promocion=eq.${userId}`,
+      {
+        method: "GET",
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json"
+        }
       }
+    );
+
+    const data = await res.json();
+
+    if (data && data.length > 0) {
+      document.getElementById("promoText").innerText = data[0].promocion;
+    } else {
+      document.getElementById("promoText").innerText = "Sin promoción disponible";
     }
-  );
 
-  const data = await res.json();
-  const promo = data?.[0]?.promocion || "";
+  } catch (err) {
+    console.error("Error cargando promoción:", err);
+    document.getElementById("promoText").innerText = "Error al cargar promoción";
+  }
+}
 
-  document.getElementById("promoText").innerText = promo;
-
-  const short = userId.slice(0, 4);
-  document.getElementById("cardNumber").innerText =
-    `C4RI JR06 00AX ${short}`;
-
-  /* COLOR SIN OSCURECER */
-  let bg = "#000";
-
-  if (promo.includes("Dorada")) bg = "#8a6a00";
-  if (promo.includes("Gris")) bg = "#2a2a2a";
-
-  document.documentElement.style.setProperty("--bg", bg);
-
+/* INIT */
+window.addEventListener("load", () => {
   generarQR(userId);
-}
-
-window.addEventListener("load", cargar);
+  cargarPromocion();
+});
