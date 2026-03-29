@@ -5,10 +5,12 @@ body {
   font-family: Arial, sans-serif;
 }
 
-/* VARIABLES TEMA */
+/* VARIABLES DINÁMICAS */
 :root {
-  --card-bg-1: #0a0a0a;
-  --card-bg-2: #1a1a1a;
+  --card-1: #0a0a0a;
+  --card-2: #1a1a1a;
+  --line: rgba(255,255,255,0.15);
+  --glow: rgba(255,255,255,0.12);
 }
 
 /* CENTRADO */
@@ -49,19 +51,34 @@ body {
   overflow: hidden;
 }
 
-/* FRONT */
+/* ================= FRONT ================= */
 .front {
-  background: linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2));
+  position: relative;
+  background: linear-gradient(145deg, var(--card-1), var(--card-2));
   color: white;
 }
 
-/* BACK */
+/* BRILLO METÁLICO (IMPORTANTE) */
+.front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--lx,50%) var(--ly,50%),
+    rgba(255,255,255,0.18),
+    transparent 40%);
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* ================= BACK ================= */
 .back {
-  background: linear-gradient(145deg, var(--card-bg-1), var(--card-bg-2));
+  position: relative;
+  background: linear-gradient(145deg, var(--card-1), var(--card-2));
   transform: rotateY(180deg);
   color: white;
 }
 
+/* LINEA SUPERIOR */
 .back::before {
   content: "";
   position: absolute;
@@ -69,8 +86,8 @@ body {
   left: 0;
   width: 100%;
   height: 55px;
-  background: linear-gradient(90deg,#111,#333,#111);
-  z-index:1;
+  background: linear-gradient(90deg, var(--line), rgba(255,255,255,0.05), var(--line));
+  z-index: 1;
 }
 
 /* BACK CONTENT */
@@ -89,7 +106,7 @@ body {
 /* PROMO */
 .promo {
   font-size: 12px;
-  opacity: 0.85;
+  opacity: 0.9;
   max-width: 60%;
 }
 
@@ -106,22 +123,22 @@ body {
   border-radius: 14px;
   width: 110px;
   height: 110px;
-
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-/* FOOTER */
+/* FOOTER LINEA METAL */
 .footer {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
 
-  border-top: 1px solid rgba(255,255,255,0.15);
+  border-top: 1px solid var(--line);
   padding-top: 10px;
 }
 
+/* LOGO */
 .logo-small {
   height: 24px;
 }
@@ -133,7 +150,7 @@ body {
   width: 65%;
 }
 
-/* FRONT (tu diseño intacto) */
+/* FRONT CONTENT (TUYA) */
 .content {
   position: relative;
   z-index: 2;
